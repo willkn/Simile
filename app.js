@@ -2,8 +2,11 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
+const myAddon = require('./build/Release/test');
+
+
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send(myAddon.hello());
 });
 
 app.listen(port, () => {
