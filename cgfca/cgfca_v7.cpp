@@ -31,7 +31,7 @@
 /* Thus a CG (SourceConcept,relation,TargetConcept) triple becomes an FCA	*/
 /* binary relation in the form ((SourceConcept^relation),TargetConcept)		*/
 /* Indirect chaining forms the sub-concept/super-concept links			    */
-/* in the FCA,maintaining the hierarchical dependencies in the CG.			*/
+/* in the FCA, maintaining the hierarchical dependencies in the CG.			*/
 /*																			*/
 /* cgfa accepts cgif files in its 'lite' format								*/
 /* i. e. without the Charger visualisation information. 					*/
@@ -40,6 +40,8 @@
 #include <fstream>
 #include <conio.h>
 #include <string>
+#include <cpr/cpr.h>
+
 using namespace std;
 
 #define MAX_ROWS 1000	//Max rows (objects) in context
@@ -85,6 +87,23 @@ int numoutputs = 0;
 
 ofstream report_file;
 
+// function to replace cout
+void customCout(const std::string& message) {
+    cpr::Post(cpr::Url{"http://localhost:3000/output"},
+              cpr::Body{"{\"message\":\"" + message + "\"}"},
+              cpr::Header{{"Content-Type", "application/json"}});
+}
+
+// Function to replace cin
+std::string customCin() {
+    auto response = cpr::Get(cpr::Url{"http://localhost:3000/input"});
+    if (response.status_code == 200) {
+        // Parse the response body to extract the input
+        auto input = nlohmann::json::parse(response.text)["input"];
+        return input;
+    }
+    return ""; // Return an empty string or handle as needed if no input is available
+}
 
 void main(){
 	void input_cgif_file(string);
