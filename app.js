@@ -36,7 +36,7 @@ function xmlToGraph(pathToGraph) {
   return connections
 }
 
-console.log(xmlToGraph('./graphs/graph.xml'));
+console.log(xmlToGraph('./graphs/graph.xml'));  
 
 app.use(express.json()); // For JSON body parsing
 app.use(express.urlencoded({ extended: true })); // For URL-encoded body parsing
