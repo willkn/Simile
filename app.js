@@ -36,7 +36,56 @@ function xmlToGraph(pathToGraph) {
   return connections
 }
 
-console.log(xmlToGraph('./graphs/graph.xml'));  
+function extractNodes(pathToGraph)
+{
+  const xmlString = fs.readFileSync(pathToGraph, 'utf8');
+  const parser = new DOMParser();
+  const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
+
+  // Find all <mxCell> elements within the <mxGraphModel> element
+  const mxGraphModel = xmlDoc.getElementsByTagName('mxGraphModel')[0];
+  const mxCellNodes = Array.from(mxGraphModel.getElementsByTagName('mxCell'));
+
+  let nodes = {};
+
+  for (const mxCellNode of mxCellNodes) 
+  {
+    const sourceId = mxCellNode.getAttribute('source');
+    const targetId = mxCellNode.getAttribute('target');
+
+    const value = mxCellNode.getAttribute('value');
+    //check if it's a node
+    if (!sourceId && !targetId && value)
+    {
+      const id = mxCellNode.getAttribute('id');
+
+      nodes[id] = value;
+
+    }
+  }
+  return nodes;
+}
+
+function xmlToCSV3(connections, nodes)
+{
+  console.log(connections);
+  //go through every array of connection
+  for (const [key, value] of Object.entries(connections))
+  {
+    for(const connection of value)
+    {
+      console.log(nodes[key] + "---->" + nodes[connection]);
+    }
+    //nodeConnections = connection.value
+  }
+}
+
+
+let listOfConnections = xmlToGraph('./graphs/graph.xml');
+
+let nodes = extractNodes('./graphs/graph.xml');
+
+xmlToCSV3(listOfConnections, nodes);
 
 app.use(express.json()); // For JSON body parsing
 app.use(express.urlencoded({ extended: true })); // For URL-encoded body parsing
