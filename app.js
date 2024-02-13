@@ -6,6 +6,8 @@ const port = 3000;
 const fs = require('fs');
 const { DOMParser } = require('xmldom');
 
+const content = 'Some content!';
+
 function xmlToGraph(pathToGraph) {
   // Read from our collection of graphs
   const xmlString = fs.readFileSync(pathToGraph, 'utf8');
@@ -23,13 +25,15 @@ function xmlToGraph(pathToGraph) {
   for (const mxCellNode of mxCellNodes) {
     const sourceId = mxCellNode.getAttribute('source');
     const targetId = mxCellNode.getAttribute('target');
+    const valueId = mxCellNode.getAttribute('value');
 
     // Check if the mxCell represents an edge (has both source and target)
     if (sourceId && targetId) {
       if (!connections[sourceId]) {
         connections[sourceId] = [];
       }
-      connections[sourceId].push(targetId);
+      const temp = [targetId, valueId] 
+      connections[sourceId].push(temp);
     }
   }
   // Print the connections
@@ -59,8 +63,7 @@ function extractNodes(pathToGraph)
     {
       const id = mxCellNode.getAttribute('id');
 
-      nodes[id] = value;
-
+      nodes[id] = removeHTMLSymbols(value);;
     }
   }
   return nodes;
@@ -70,14 +73,39 @@ function xmlToCSV3(connections, nodes)
 {
   console.log(connections);
   //go through every array of connection
+  let toTxt = "";
+
   for (const [key, value] of Object.entries(connections))
   {
     for(const connection of value)
     {
-      console.log(nodes[key] + "---->" + nodes[connection]);
+      const targetId = connection[0];
+      const value = connection[1];
+
+      toTxt = toTxt.concat(nodes[key] + "," + value + "," + nodes[targetId] + "\n");
     }
     //nodeConnections = connection.value
   }
+  return toTxt;
+}
+
+function removeHTMLSymbols(str)
+{
+  const htmlSymbols = ["&nbsp;", "&lt;", "&gt;", "&amp;", "&quot;", "<div>", "</div>", "<span>", "</span>"];
+
+  for(i = 0; i < htmlSymbols.length; i++)
+  {
+    //check if you need <span> in the if condition too 
+    if(htmlSymbols[i] == "<div>")
+    {
+      str = str.replace(htmlSymbols[i], " ");
+    }
+    else
+    {
+      str = str.replace(htmlSymbols[i], "");
+    }
+  }
+  return str;
 }
 
 
@@ -85,7 +113,14 @@ let listOfConnections = xmlToGraph('./graphs/graph.xml');
 
 let nodes = extractNodes('./graphs/graph.xml');
 
-xmlToCSV3(listOfConnections, nodes);
+let result = xmlToCSV3(listOfConnections, nodes);
+fs.writeFile('test.txt', result, err => {
+  if (err) {
+    console.error(err);
+  } else {
+    // file written successfully
+  }
+});
 
 app.use(express.json()); // For JSON body parsing
 app.use(express.urlencoded({ extended: true })); // For URL-encoded body parsing
