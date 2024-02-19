@@ -1,0 +1,30 @@
+Organisation,owns,Organisational Function
+Organisational Function,executed by,Role
+Role,produces/consumes,Business Object
+Role,operates at,Location
+Business Object,generalisation of,Product
+Product,at,Location
+Product,transforms/accountable for value of,Business Service
+Process,delivers,Business Service
+Process,uses to indicate options/choices,Gateway
+Gateway,partially or fully automates,Application/System
+Application/System,implements,Application Function
+Application Task,implements,Application Function
+Application Task,provides,Information Object
+Application/System,includes,Application Task
+Application Task,interacts with,Data Entity
+Application Service,partially or fully automates,Information Object
+Application/System,includes,Application Service
+Data Object,generalisation of,Data Component
+Data Channel,distributes,Data Component
+Data Entity,included in,Data Object
+Data Service,encapsulates,Data Object
+Data Entity,logically specifies,Data Table
+Data Service,instantiated in,Data Table
+Data Media,logically specifies,Data Table
+Data Media,used by,Data Service
+Data Service,means of distribution is,Data Channel
+Platform Device,hosts,Data Media
+Platform Component,provides the specification for,Platform Device
+Platform Component,specifies,Infrastructure Service
+Infrastructure Service,instantiates behaviour of,Infrastructure Component

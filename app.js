@@ -2,9 +2,11 @@ const express = require('express');
 const path = require('path');
 const { exec } = require('child_process');
 const multer = require('multer');
+const csv = require('csv-parser');
 
 const app = express();
 const port = 3000;
+const bodyParser = require('body-parser');
 
 app.use(express.static('public'));
 
@@ -176,8 +178,9 @@ let nodes = extractNodes('./graphs/graph.xml');
 //     }
 // });
 
-app.use(express.json()); // For JSON body parsing
-app.use(express.urlencoded({ extended: true })); // For URL-encoded body parsing
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.text());
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
@@ -204,12 +207,19 @@ app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
   }
 });
 
-// Endpoint for C++ application to request input
-app.get('/input', (req, res) => {
-    if (inputQueue.length > 0) {
-        const input = inputQueue.shift(); // Get the first item from the queue
-        res.status(200).send({ input: input });
-    } else {
-        res.status(404).send({ error: 'No input available' });
-    }
+app.post('/test', (req, res) => {
+  // Get the CSV data from the request body
+  const csvData = req.body;
+  
+  // Parse the CSV data
+  const parsedData = csvData.split('\n').map(line => line.split(','));
+
+  // Write the CSV data to a file
+  const fileName = 'received_data.csv';
+  const fileStream = fs.createWriteStream(fileName);
+  parsedData.forEach(row => fileStream.write(row.join(',') + '\n'));
+  fileStream.end();
+  
+  // Respond with status code 200
+  res.sendStatus(200);
 });
