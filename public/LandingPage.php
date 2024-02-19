@@ -1,5 +1,6 @@
-<!doctype html>
-<html lang="en">
+<?php
+require("NavBar.php");
+?>
 
 <body>
 
