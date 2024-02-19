@@ -219,6 +219,8 @@ app.post('/test', (req, res) => {
   const fileStream = fs.createWriteStream(fileName);
   parsedData.forEach(row => fileStream.write(row.join(',') + '\n'));
   fileStream.end();
+
+  runCGFCA(fileName);
   
   // Respond with status code 200
   res.sendStatus(200);
