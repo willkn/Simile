@@ -1,8 +1,11 @@
 const express = require('express');
+const path = require('path');
 const { exec } = require('child_process');
+const multer = require('multer');
+
 const app = express();
 const port = 3000;
-const multer = require('multer');
+
 app.use(express.static('public'));
 
 
@@ -127,6 +130,38 @@ function removeHTMLSymbols(str) {
     return str;
 }
 
+// Function to delete every file in a directory
+function purgeDirectory(directoryPath) {
+  fs.readdir(directoryPath, (err, files) => {
+      if (err) {
+          console.error('Error reading directory:', err);
+          return;
+      }
+
+      // Iterate through each file in the directory
+      for (const file of files) {
+          const filePath = path.join(directoryPath, file);
+
+          // Check if the path is a file
+          fs.stat(filePath, (err, stats) => {
+              if (err) {
+                  console.error('Error getting file stats:', err);
+                  return;
+              }
+              if (stats.isFile()) {
+                  // Delete the file
+                  fs.unlink(filePath, (err) => {
+                      if (err) {
+                          console.error('Error deleting file:', err);
+                          return;
+                      }
+                      console.log(`Deleted file: ${filePath}`);
+                  });
+              }
+          });
+      }
+  });
+}
 
 let listOfConnections = xmlToGraph('./graphs/graph.xml');
 
@@ -148,10 +183,25 @@ app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
 
-app.post('/cgfca', upload.single('draw.ioInput'), (req, res) => {
-  runCGFCA(req.file.path);
-  
-  res.send('File uploaded successfully');
+app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
+  console.log("received!")
+  if (!req.file || !req.file.path) {
+      return res.status(400).send('No file uploaded');
+  }
+
+  const filePath = req.file.path;
+  console.log(filePath);
+
+  try {
+      // Run CGFCA asynchronously
+      await runCGFCA(filePath);
+      await purgeDirectory('./cgfca/uploads');
+
+      res.send('File uploaded successfully');
+  } catch (error) {
+      console.error('Error processing file:', error);
+      res.status(500).send('Error processing file');
+  }
 });
 
 // Endpoint for C++ application to request input

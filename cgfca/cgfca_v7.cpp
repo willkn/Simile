@@ -169,7 +169,6 @@ int main(int argc, char* argv[]){
 
 	for(int p = 0; p < 100; p++) cpathsizes[p]=0;
 
-	cout << "\n\nEnter cgif or csv file name including extension: ";
 	std::string fname = file;
 
 	//find out if file is cgif or csv format
@@ -190,10 +189,9 @@ int main(int argc, char* argv[]){
 	triples_to_binaries();
 	
 	output_cxt_file();
-	cout << "\n\nHit <enter> to finish";
-	while ( !_kbhit());
-
 	report_file.close();
+
+	return(0);
 }
 
 void input_csv_file(string fname){
@@ -777,28 +775,28 @@ bool is_new_cycle(int path[][2], int pathsize){
 //	return true;
 //}
 
-
 void output_cxt_file() {
-	int pos = fname.find(".");
-	cfname = fname.substr(0,pos);
-	cfname+=".cxt";
-	ofstream outcxt;
-	outcxt.open(cfname);
-	outcxt << "B\n\n";
-	outcxt << numconcepts << "\n";
-	outcxt << numtriples << "\n\n";
-	for(int i=0;i<numconcepts;i++)
-		outcxt << concepts[i] << "\n";
-	
-	for(int j=0;j<numtriples;j++)
-		outcxt << concepts[triple[j][SOURCE]] << " " << relation_labels[triple[j][RELATION]] << "\n";
+    int pos = fname.find(".");
+    string cfname = "./cgfca/cxt/" + fname.substr(0, pos) + ".cxt"; // Updated path
 
-	for(int i=0;i<numconcepts;i++){
-		for(int j=0;j<numtriples;j++){
-			if(context[i][j])outcxt << "X";
-			else outcxt << ".";
-		}
-		outcxt << "\n";
-	}
-	outcxt.close();
+    ofstream outcxt;
+    outcxt.open(cfname);
+    outcxt << "B\n\n";
+    outcxt << numconcepts << "\n";
+    outcxt << numtriples << "\n\n";
+
+    for (int i = 0; i < numconcepts; i++)
+        outcxt << concepts[i] << "\n";
+
+    for (int j = 0; j < numtriples; j++)
+        outcxt << concepts[triple[j][SOURCE]] << " " << relation_labels[triple[j][RELATION]] << "\n";
+
+    for (int i = 0; i < numconcepts; i++) {
+        for (int j = 0; j < numtriples; j++) {
+            if (context[i][j]) outcxt << "X";
+            else outcxt << ".";
+        }
+        outcxt << "\n";
+    }
+    outcxt.close();
 }

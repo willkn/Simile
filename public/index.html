@@ -3,12 +3,10 @@
 
 <head>
     <title>Static Page</title>
-    <link rel="stylesheet" type="text/css" href="site.css" media=”screen” />
-
 </head>
 
 <body>
-    <h1>Similie</h1>
+    <h1>Simile</h1>
     <h2>Send Request to Another Server</h2>
     <input type="text" id="inputField" placeholder="Enter something...">
     <button onclick="sendRequest()">Send</button>
@@ -42,42 +40,28 @@
             <button type="submit">Enter</button>
         </div>
     </form>
-</body>
+    
+    <textarea id="text"></textarea>
+    <br />
+    <input type="button" id="btn" value="Download" />
+    <script>
+        function download(file, text) {
+            //creating an invisible element
+            var element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+            element.setAttribute('download', file);
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
 
-<body>
-
-        <textarea id="text">
-             
-         </textarea>
-        <br />
-        <input type="button" id="btn" value="Download" />
-        <script>
-            function download(file, text) {
- 
-                //creating an invisible element
- 
-                var element = document.createElement('a');
-                element.setAttribute('href',
-                    'data:text/plain;charset=utf-8, '
-                    + encodeURIComponent(text));
-                element.setAttribute('download', file);
-                document.body.appendChild(element);
-                element.click();
- 
-                document.body.removeChild(element);
-            }
- 
-            // Start file download.
- 
-            document.getElementById("btn")
-                .addEventListener("click", function () {
-                    var text = 
-                            document.getElementById("text").value;
-                    var filename = "User.txt";
- 
-                    download(filename, text);
-                }, false);
-        </script>
+        // Start file download.
+        document.getElementById("btn").addEventListener("click", function () {
+            var text = document.getElementById("text").value;
+            var filename = "User.txt";
+            download(filename, text);
+        }, false);
+    </script>
 </body>
 
 </html>
