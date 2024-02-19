@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Static Page</title>
 </head>
+
 <body>
     <h1>Send Request to Another Server</h1>
     <input type="text" id="inputField" placeholder="Enter something...">
@@ -12,16 +14,21 @@
         function sendRequest() {
             const value = document.getElementById('inputField').value;
             fetch('https://example.com/endpoint', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ data: value }),
-            })
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch((error) => console.error('Error:', error));
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        data: value
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch((error) => console.error('Error:', error));
         }
     </script>
+
+    <p>Click <a href="https://app.diagrams.net/">here</a> to go to draw.io.</p>
 </body>
+
 </html>
