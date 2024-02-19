@@ -1,5 +1,5 @@
-//Conceptual Graph to Formal Context Program: cgfca_v7.cpp
-//
+//Conceptual Graph to Formal Context Program: cgfca_v7.cpp	
+//				
 //Copyright (c) 2017 Simon Andrews, Sheffield Hallam University s.andrews@shu.ac.uk
 //
 //Converts .cgif files to .cxt files and reports CG features
@@ -22,7 +22,7 @@
 //AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 //LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-//THE SOFTWARE.9899
+//THE SOFTWARE.
 //
 
 /* A CG Target Concept becomes an FCA object								*/
@@ -31,21 +31,28 @@
 /* Thus a CG (SourceConcept,relation,TargetConcept) triple becomes an FCA	*/
 /* binary relation in the form ((SourceConcept^relation),TargetConcept)		*/
 /* Indirect chaining forms the sub-concept/super-concept links			    */
-/* in the FCA, maintaining the hierarchical dependencies in the CG.			*/
+/* in the FCA,maintaining the hierarchical dependencies in the CG.			*/
 /*																			*/
 /* cgfa accepts cgif files in its 'lite' format								*/
 /* i. e. without the Charger visualisation information. 					*/
 
 #include<iostream>
-#include <fstream>
-#include <conio.h>
+#include <fstream>	
 #include <string>
-#include <cpr/cpr.h>
+#include <cstring>
+#include <iostream>
+#include <curl/curl.h>
+#ifdef _WIN32
+#include <conio.h> // For _kbhit on Windows
+#else
+#include <unistd.h>
+#include <termios.h>
+#include <fcntl.h>
 
 using namespace std;
 
 #define MAX_ROWS 1000	//Max rows (objects) in context
-#define MAX_COLS 1000	//Max columns (attributes) in context
+#define MAX_COLS 1000	//Max columns (attributes) in context 
 #define SOURCE 0		//source concept index of triple
 #define RELATION 1		//relation index of triple
 #define TARGET 2		//target concept index of triple
@@ -55,11 +62,74 @@ using namespace std;
 #define OBJECT 1
 #define TIMES 2
 
-int triple[5000][3];		//SourceConcept|relation|TargetConcept
+// Unix-like system implementation of _kbhit()
+int _kbhit(void) {
+    struct termios oldt, newt;
+    int ch;
+    int oldf;
+
+    // Get terminal settings
+    tcgetattr(STDIN_FILENO, &oldt);
+    newt = oldt;
+
+    // Set terminal to non-canonical, no echo mode
+    newt.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+
+    // Set stdin to non-blocking
+    oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
+    fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
+
+    // Check for input
+    ch = getchar();
+
+    // Restore terminal settings and stdin flags
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+    fcntl(STDIN_FILENO, F_SETFL, oldf);
+
+    if(ch != EOF) {
+        ungetc(ch, stdin); // Put the character back
+        return 1;
+    }
+
+    return 0;
+}
+#endif
+
+// Callback function for writing received data
+size_t WriteCallback(void *contents, size_t size, size_t nmemb, string *userp) {
+    userp->append((char*)contents, size * nmemb);
+    return size * nmemb;
+}
+
+std::string performPostRequest(const std::string& postData) {
+    CURL* curl;
+    CURLcode res;
+    std::string readBuffer;
+	std::string url = "http://localhost:3000/test";
+
+    curl = curl_easy_init();
+    if (curl) {
+		std::cout << "posting!";
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postData.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+        
+        res = curl_easy_perform(curl);
+        if (res != CURLE_OK) {
+            std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;
+        }
+        curl_easy_cleanup(curl);
+    }
+    return readBuffer;
+}
+
+int triple[5000][3];		//SourceConcept|relation|TargetConcept		
 int numtriples = 0;			//number of triples
 
 string referents[1000];	//CG Concept labels in cgif file
-string concepts[1000];	//FCA formal object name = GC Target Concept
+string concepts[1000];	//FCA formal object name = GC Target Concept 
 
 int numrelations = 0;
 
@@ -87,25 +157,10 @@ int numoutputs = 0;
 
 ofstream report_file;
 
-// function to replace cout
-void customCout(const std::string& message) {
-    cpr::Post(cpr::Url{"http://localhost:3000/output"},
-              cpr::Body{"{\"message\":\"" + message + "\"}"},
-              cpr::Header{{"Content-Type", "application/json"}});
-}
 
-// Function to replace cin
-std::string customCin() {
-    auto response = cpr::Get(cpr::Url{"http://localhost:3000/input"});
-    if (response.status_code == 200) {
-        // Parse the response body to extract the input
-        auto input = nlohmann::json::parse(response.text)["input"];
-        return input;
-    }
-    return ""; // Return an empty string or handle as needed if no input is available
-}
+int main(int argc, char* argv[]){
+	std::string file = argv[1];
 
-void main(){
 	void input_cgif_file(string);
 	void input_csv_file(string);
 	void triples_to_binaries(void); //convert CG triples into FCA binary relations
@@ -114,8 +169,8 @@ void main(){
 
 	for(int p = 0; p < 100; p++) cpathsizes[p]=0;
 
-	cout << "\n\nEnter cgif or delimiter separated triples file name including extension: ";
-	cin >> fname;
+	cout << "\n\nEnter cgif or csv file name including extension: ";
+	std::string fname = file;
 
 	//find out if file is cgif or csv format
 	if(fname.substr( fname.length() - 3 ) == "gif")
@@ -125,15 +180,15 @@ void main(){
 
 	int pos = fname.find(".");
 	rfname = fname.substr(0,pos);
-	rfname+="_report.txt";
+	rfname+=".txt";
 	report_file.open(rfname);
 
 	report_file << "Triples to Binaries Report for " << fname << "\n\n";
-
+	
 	reportInputAndOuputConcepts();
-
+	
 	triples_to_binaries();
-
+	
 	output_cxt_file();
 	cout << "\n\nHit <enter> to finish";
 	while ( !_kbhit());
@@ -156,62 +211,18 @@ void input_csv_file(string fname){
 	}
 
 	string line, source, relation, target;
-	string soreltar[3];
-	int n = 0;
-	char charline[1024];
-	char a;
-	bool escaped = false;
-
-	char delim;
-	cout << "\nEnter delimiter character (enter t if delimiter is the tab character, enter s if delimiter is the space character):";
-	cin >> delim;
-	if (delim == 't')delim = '\t';
-	if (delim == 's')delim = ' ';
-
 	while (getline(csvfile, line, '\n')) // read whole line into line
 	{
-		strcpy(charline, line.c_str());
-
-		n = 0;
-		escaped = false;
-		soreltar[0] = "";
-		soreltar[1] = "";
-		soreltar[2] = "";
-
-		//extract source, relation and target from csv line
-		for(int i=0; i < strlen(charline); i++){
-			a = line[i];
-			if(a=='"' && !escaped) {
-				escaped = true;
-			}
-			else {
-				if(a=='"' && escaped){
-					escaped = false;
-				}
-				else {
-					if(a==delim && !escaped){
-						n++;
-					}
-					else{
-						soreltar[n] = soreltar[n] + a;
-					}
-				}
-			}
-		}
-
-		source = soreltar[0];
-		relation = soreltar[1];
-		target = soreltar[2];
-
-		/*int pos = line.find(',');
+		//extract source, realtion and target from csv line
+		int pos = line.find(',');
 		source = line.substr(0,pos);
 		line = line.substr(pos+1,string::npos);
 		pos = line.find(',');
 		relation = line.substr(0,pos);
-		target = line.substr(pos+1,string::npos);*/
+		target = line.substr(pos+1,string::npos);
 
 		/* CREATE CONCEPT AND RELATION LISTS AND CREATE TRIPLES */
-		int pos = find_concept(source);
+		pos = find_concept(source);
 		if(pos == -1){
 			//add new concept to list
 			pos = numconcepts;
@@ -268,9 +279,9 @@ void input_cgif_file(string fname){
 	void makeTriples(int rel, string ref_list);
 
 	ifstream cgifFile;
-
+	
 	cgifFile.open(fname);
-
+	
 	if(cgifFile.fail()){
 		cout << "file does not exist!";
 		cout << "\nHit <enter> to finish";
@@ -290,7 +301,7 @@ void input_cgif_file(string fname){
 		start =  cgconcepts.find('[');
 		end = cgconcepts.find(']');
 	}
-
+	
 	//extract relation labels and their lists of concept referents
 	string cgrelations;
 	getline(cgifFile,cgrelations,'\n');
@@ -349,9 +360,9 @@ void input_cgif_file(string fname){
 
 void makeTriples(int rel, string ref_list){
 	int i=0; //index for ref_list (pointer to each char in the string)
-
+	
 	string referent=""; //reset CG Concept referent
-	int numSourceConsInRelation=0;
+	int numSourceConsInRelation=0;		
 	int SourceConceptIndex[100]; //lookup indexes for source concepts
 	while(i < ref_list.length()){
 		if(ref_list[i]!=' '){
@@ -469,7 +480,7 @@ void extractCGconceptTypeLabelandReferent(string type_and_referent){
 			numconcepts++;
 		}
 		else{ //if there is a co-referent, concattenate concept type labels if they are different
-				//unpick coreferent type labels from current possibly concatenatned type labels
+				//unpick coreferent type labels from current possibly concatenatned type labels	
 				int numcorefs = 0;
 				string corefs[20]; //max 20 differently named corefs!
 				for(int x=0; x<20; x++) corefs[x]="";
@@ -504,7 +515,7 @@ void extractCGconceptTypeLabelandReferent(string type_and_referent){
 				numconcepts++;
 			}
 			else{ //if there is a co-referent, concattenate concept type labels if they are different
-				//unpick coreferent type labels from current possibly concatenatned type labels
+				//unpick coreferent type labels from current possibly concatenatned type labels	
 				int numcorefs = 0;
 				string corefs[20]; //max 20 differently named corefs!
 				for(int x=0; x<20; x++) corefs[x]="";
@@ -556,11 +567,11 @@ void triples_to_binaries(){
 		int target = triple[attribute][TARGET];
 		int relation = triple[attribute][RELATION];
 		int source = triple[attribute][SOURCE];
-
+		
 		add_binary(attribute, source, relation, target, path, pathsize);
 	}
 
-
+	
 	//output repeats
 	for(int i = 0; i < numreps; i++){
 		int source = triple[repeats[i][ATTRIBUTE]][SOURCE];
@@ -574,7 +585,7 @@ void triples_to_binaries(){
 }
 
 
-void add_binary(int attribute, int source, int relation, int target, int path[][2], int pathsize) {
+void add_binary(int attribute, int source, int relation, int target, int path[][2], int pathsize){
 
 	bool is_new_cycle(int[][2], int);
 	bool repeat_is_not_in_a_cycle(int, int);
@@ -588,48 +599,46 @@ void add_binary(int attribute, int source, int relation, int target, int path[][
 
 	//if(!source_relation_already_in_pathway(source, relation, path, pathsize)){
 
-	//cout << source << '\t' << relation << '\t' << target << '\n';
+	
+	
+		//add source and relation to current pathway
+		path[pathsize][0]=source;
+		path[pathsize][1]=relation;
+		pathsize++;
 
-	//add source and relation to current pathway
-	path[pathsize][0] = source;
-	path[pathsize][1] = relation;
-	pathsize++;
-
-	//repeated output targets
-	if (context[target][attribute] == true) {
-		if (repeat_is_not_in_a_cycle(target, triple[attribute][SOURCE])) {
-			if (is_output(target) && is_input(attribute)) {
-				add_to_repeats(target, attribute);
+		//repeated output targets
+		if(context[target][attribute]==true){
+			if(repeat_is_not_in_a_cycle(target,triple[attribute][SOURCE])){
+				if(is_output(target) && is_input(attribute)){
+					add_to_repeats(target, attribute);
+				}
 			}
 		}
-	}
-	else {
 
 		//add a cross in the formal context for the attribute and target (object)
-		context[target][attribute] = true;
+		context[target][attribute]=true;
 
 		//if object is an output and attribute involves an input then report pathway
-		if (is_output(target) && is_input(attribute)) {
+		if(is_output(target) && is_input(attribute)){
 			cout << "\n\nDirect Pathway: ";
 			report_file << "\n\nDirect Pathway: ";
-			for (int p = 0; p < pathsize; p++) {
-				cout << concepts[path[p][0]] << " - " << relation_labels[path[p][1]] << " - ";
-				report_file << concepts[path[p][0]] << " - " << relation_labels[path[p][1]] << " - ";
+			for(int p=0; p<pathsize; p++){
+				cout << concepts[path[p][0]] << " - " << relation_labels[path[p][1]]<< " - ";
+				report_file << concepts[path[p][0]] << " - " << relation_labels[path[p][1]]<< " - ";
 			}
 			cout << concepts[target];
 			report_file << concepts[target];
 		}
 
-		//if(source==target){
-		if (triple[attribute][SOURCE] == target) { //if source is its own target, its a cycle!
-			if (is_new_cycle(path, pathsize)) {
-				cpathsizes[numcpaths] = pathsize;
+		if(triple[attribute][SOURCE]==target){ //if source is its own target, its a cycle!
+			if(is_new_cycle(path,pathsize)){
+				cpathsizes[numcpaths]=pathsize;
 				cout << "\n\nCycle: ";
 				report_file << "\n\nCycle: ";
-				for (int p = 0; p < pathsize; p++) {
+				for(int p = 0; p < pathsize; p++){
 					cout << concepts[path[p][0]] << " - " << relation_labels[path[p][1]] << " - ";
 					report_file << concepts[path[p][0]] << " - " << relation_labels[path[p][1]] << " - ";
-					cyclepaths[numcpaths][p] = path[p][0];
+					cyclepaths[numcpaths][p]=path[p][0];
 				}
 				cout << concepts[path[0][0]];
 				report_file << concepts[path[0][0]];
@@ -637,11 +646,11 @@ void add_binary(int attribute, int source, int relation, int target, int path[][
 			}
 		}
 
-		if (!target_already_in_pathway(target, path, pathsize)) {
-			for (int k = 0; k < numtriples; k++) {
-				if (target == triple[k][SOURCE]) {
-					add_binary(attribute, triple[k][SOURCE], triple[k][RELATION], triple[k][TARGET], path, pathsize);
-				}
+	if(!target_already_in_pathway(target, path, pathsize)){
+
+		for(int k=0; k<numtriples; k++){	
+			if(target==triple[k][SOURCE]){
+				add_binary(attribute, triple[k][SOURCE], triple[k][RELATION], triple[k][TARGET], path, pathsize);
 			}
 		}
 	}
@@ -780,7 +789,7 @@ void output_cxt_file() {
 	outcxt << numtriples << "\n\n";
 	for(int i=0;i<numconcepts;i++)
 		outcxt << concepts[i] << "\n";
-
+	
 	for(int j=0;j<numtriples;j++)
 		outcxt << concepts[triple[j][SOURCE]] << " " << relation_labels[triple[j][RELATION]] << "\n";
 

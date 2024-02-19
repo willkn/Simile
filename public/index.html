@@ -14,7 +14,7 @@
     <script>
         function sendRequest() {
             const value = document.getElementById('inputField').value;
-            fetch('https://example.com/endpoint', {
+            fetch('http://localhost:3000/cgfca', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -28,53 +28,40 @@
                 .catch((error) => console.error('Error:', error));
         }
     </script>
+
     <p>Click <a href="https://app.diagrams.net/">here</a> to go to draw.io.</p>
 
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" action="http://localhost:3000/cgfca">
         <div>
             <label for="draw.ioInput">Choose file to enter into CGFCA</label>
             <input type="file" id="draw.ioInput" name="draw.ioInput" accept=".xml, .cgif, .csv">
         </div>
         <div>
-            <button>Enter</button>
+            <button type="submit">Enter</button>
         </div>
     </form>
-</body>
+    
+    <textarea id="text"></textarea>
+    <br />
+    <input type="button" id="btn" value="Download" />
+    <script>
+        function download(file, text) {
+            //creating an invisible element
+            var element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+            element.setAttribute('download', file);
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
 
-<body>
-
-        <textarea id="text">
-             
-         </textarea>
-        <br />
-        <input type="button" id="btn" value="Download" />
-        <script>
-            function download(file, text) {
- 
-                //creating an invisible element
- 
-                var element = document.createElement('a');
-                element.setAttribute('href',
-                    'data:text/plain;charset=utf-8, '
-                    + encodeURIComponent(text));
-                element.setAttribute('download', file);
-                document.body.appendChild(element);
-                element.click();
- 
-                document.body.removeChild(element);
-            }
- 
-            // Start file download.
- 
-            document.getElementById("btn")
-                .addEventListener("click", function () {
-                    var text = 
-                            document.getElementById("text").value;
-                    var filename = "User.txt";
- 
-                    download(filename, text);
-                }, false);
-        </script>
+        // Start file download.
+        document.getElementById("btn").addEventListener("click", function () {
+            var text = document.getElementById("text").value;
+            var filename = "User.txt";
+            download(filename, text);
+        }, false);
+    </script>
 </body>
 
 </html>

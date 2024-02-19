@@ -1,13 +1,42 @@
 const express = require('express');
-const { spawn } = require('child_process');
+const { exec } = require('child_process');
 const app = express();
 const port = 3000;
+const multer = require('multer');
 app.use(express.static('public'));
+
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+      cb(null, './cgfca/uploads') // Specify the directory where uploaded files will be stored
+  },
+  filename: function (req, file, cb) {
+      cb(null, file.originalname); // Use the original file name for the uploaded file
+  }
+});
+
+const upload = multer({ storage });
+
 
 const fs = require('fs');
 const { DOMParser } = require('xmldom');
 
 const content = 'Some content!';
+
+function runCGFCA(arg1, arg2) {
+  return new Promise((resolve, reject) => {
+    // Replace 'program' with the actual name of your compiled C++ program
+    exec(`./cgfca/cgfca ${arg1} ${arg2}`, (error, stdout, stderr) => {
+      if (error) {
+        console.error('Error running C++ program:', error);
+        reject(error);
+      } else {
+        console.log('C++ program output:', stdout);
+        resolve(stdout);
+      }
+    });
+  });
+}
 
 function xmlToGraph(pathToGraph) {
     // Read from our collection of graphs
@@ -103,14 +132,14 @@ let listOfConnections = xmlToGraph('./graphs/graph.xml');
 
 let nodes = extractNodes('./graphs/graph.xml');
 
-let result = xmlToCSV3(listOfConnections, nodes);
-fs.writeFile('test.txt', result, err => {
-    if (err) {
-        console.error(err);
-    } else {
-        // file written successfully
-    }
-});
+// let result = xmlToCSV3(listOfConnections, nodes);
+// fs.writeFile('test.txt', result, err => {
+//     if (err) {
+//         console.error(err);
+//     } else {
+//         // file written successfully
+//     }
+// });
 
 app.use(express.json()); // For JSON body parsing
 app.use(express.urlencoded({ extended: true })); // For URL-encoded body parsing
@@ -119,18 +148,10 @@ app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
 
-app.post('/cgfca', (req, res) => {
-    const initialInput = req.body.initialInput; // Expect initial input from the request body
-    interactWithCppProgram(initialInput, res);
-});
-
-// Queue for storing input that will be sent to the C++ application
-let inputQueue = [];
-
-// Endpoint for C++ application to send output
-app.post('/output', (req, res) => {
-    console.log('C++ Output:', req.body.message);
-    res.status(200).send({ status: 'Received' });
+app.post('/cgfca', upload.single('draw.ioInput'), (req, res) => {
+  runCGFCA(req.file.path);
+  
+  res.send('File uploaded successfully');
 });
 
 // Endpoint for C++ application to request input
