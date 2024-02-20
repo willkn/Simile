@@ -1,15 +1,111 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Static Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIMILIE LOGICS LIMITED</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #000000; /* Black background */
+            color: #ffffff; /* White text */
+        }
+
+        .navbar {
+            background-color: #615c5c; /* Dark gray navbar */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
+        }
+
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #ffffff;
+            text-align: center;
+            padding: 20px 0;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
+            color: #000000; /* Black text */
+        }
+
+        .container {
+            margin-top: 30px;
+            margin-bottom: 30px;
+            background-color: #333333; /* Dark gray container */
+            padding: 20px;
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
+        }
+
+        .btn-primary {
+            background-color: #000000; /* Blue button */
+            border-color: #000000; /* Blue border */
+        }
+
+        .btn-primary:hover {
+            background-color: #000000; /* Darker blue on hover */
+            border-color: #000000; /* Darker blue border on hover */
+        }
+
+        .form-control {
+            border-color: #ced4da; /* Light gray border */
+        }
+
+        .home {
+            display: flex;
+            align-items: center;
+            min-height: 100vh;
+            background:url('C:\Users\ameen\Simile Logic\Front end') no-repeat;
+            background-size: cover
+            background-position: center;
+        }
+    </style>
 </head>
 
-<body style="background-color:gainsboro">
-    <h1>Similie</h1>
-    <h2>Send Request to Another Server</h2>
-    <input type="text" id="inputField" placeholder="Enter something...">
-    <button onclick="sendRequest()">Send</button>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="https://www.linkedin.com/company/simile-logics-limited/about/"><b>SIMILIE LOGICS LIMITED</b></a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Send Request to Another Server</h5>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="inputField" placeholder="Enter something...">
+                        </div>
+                        <button onclick="sendRequest()" class="btn btn-dark">Send</button>
+                        <p style="color:rgb(0, 0, 0);">Click <a href="https://app.diagrams.net/"; >here</a> to go to draw.io.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Enter File into CGFCA</h5>
+                        <form method="post" enctype="multipart/form-data" action="http://localhost:3000/cgfca">
+                            <div class="form-group">
+                                <label for="draw.ioInput" style="color: rgb(0, 0, 0);">Choose file to enter into CGFCA</label>
+                                <input type="file" class="form-control-file" id="draw.ioInput" name="draw.ioInput" accept=".xml, .cgif, .csv">
+                            </div>
+                            <button type="submit" class="btn btn-dark">Enter</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Footer</p>
+    </div>
 
     <script>
         function sendRequest() {
@@ -28,20 +124,6 @@
                 .catch((error) => console.error('Error:', error));
         }
     </script>
-
-    <p>Click <a href="https://app.diagrams.net/">here</a> to go to draw.io.</p>
-
-    <form method="post" enctype="multipart/form-data" action="http://localhost:3000/cgfca">
-        <div>
-            <label for="draw.ioInput">Choose file to enter into CGFCA</label>
-            <input type="file" id="draw.ioInput" name="draw.ioInput" accept=".xml, .cgif, .csv">
-        </div>
-        <div>
-            <button type="submit">Enter</button>
-        </div>
-    </form>
-
-    <br />
 
 </body>
 
