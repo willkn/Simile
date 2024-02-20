@@ -148,10 +148,14 @@ app.listen(port, () => {
     console.log(`Example app listening at http:\\localhost:${port}`);
 });
 
-app.post('\\cgfca', upload.single('draw.ioInput'), (req, res) => {
-    runCGFCA(req.file.path);
-
-    res.send('File uploaded successfully');
+app.post('/cgfca', upload.single('draw.ioInput'), (req, res) => {
+    try {
+        runCGFCA(req.file.path);
+        res.send('File uploaded successfully');
+    } catch (error) {
+        console.error('Error running CGFCA:', error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 // Endpoint for C++ application to request input
