@@ -1,67 +1,0 @@
-Triples to Binaries Report for received_data.csv
-
-
-
-Inputs: "Organisation" "Organisational Function" "Role" "Business Object" "Product" "Process" "Gateway" "Application/System" "Application Task" "Application Service" "Data Object" "Data Channel" "Data Entity" "Data Service" "Data Media" "Platform Device" "Platform Component" "Infrastructure Service" 
-
-Outputs: "Organisational Function" "Role" "Business Object" "Location" "Product" "Business Service" "Gateway" "Application/System" "Application Function" "Information Object" "Application Task" "Data Entity" "Application Service" "Data Component" "Data Object" "Data Table" "Data Service" "Data Channel" "Data Media" "Platform Device" "Infrastructure Service" "Infrastructure Component" 
-
-Direct Pathway: Organisation - owns - Organisational Function
-
-Direct Pathway: Organisational Function - executed by - Role
-
-Direct Pathway: Role - produces/consumes - Business Object
-
-Direct Pathway: Role - operates at - Location
-
-Direct Pathway: Business Object - generalisation of - Product
-
-Direct Pathway: Product - at - Location
-
-Direct Pathway: Product - transforms/accountable for value of - Business Service
-
-Direct Pathway: Process - delivers - Business Service
-
-Direct Pathway: Process - uses to indicate options/choices - Gateway
-
-Direct Pathway: Gateway - partially or fully automates - Application/System
-
-Direct Pathway: Application/System - implements - Application Function
-
-Direct Pathway: Application Task - implements - Application Function
-
-Direct Pathway: Application Task - provides - Information Object
-
-Direct Pathway: Application/System - includes - Application Task
-
-Direct Pathway: Application Task - interacts with - Data Entity
-
-Direct Pathway: Application Service - partially or fully automates - Information Object
-
-Direct Pathway: Application/System - includes - Application Service
-
-Direct Pathway: Data Object - generalisation of - Data Component
-
-Direct Pathway: Data Channel - distributes - Data Component
-
-Direct Pathway: Data Entity - included in - Data Object
-
-Direct Pathway: Data Service - encapsulates - Data Object
-
-Direct Pathway: Data Entity - logically specifies - Data Table
-
-Direct Pathway: Data Service - instantiated in - Data Table
-
-Direct Pathway: Data Media - logically specifies - Data Table
-
-Direct Pathway: Data Media - used by - Data Service
-
-Direct Pathway: Data Service - means of distribution is - Data Channel
-
-Direct Pathway: Platform Device - hosts - Data Media
-
-Direct Pathway: Platform Component - provides the specification for - Platform Device
-
-Direct Pathway: Platform Component - specifies - Infrastructure Service
-
-Direct Pathway: Infrastructure Service - instantiates behaviour of - Infrastructure Component

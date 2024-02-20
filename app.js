@@ -3,6 +3,8 @@ const path = require('path');
 const { exec } = require('child_process');
 const multer = require('multer');
 const csv = require('csv-parser');
+const csvToMxCellXml = require('./csvToXML');
+const os = require('os'); // Required to check the operating system
 
 const app = express();
 const port = 3000;
@@ -21,7 +23,6 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
-
 
 const fs = require('fs');
 const { DOMParser } = require('xmldom');
@@ -169,14 +170,14 @@ let listOfConnections = xmlToGraph('./graphs/graph.xml');
 
 let nodes = extractNodes('./graphs/graph.xml');
 
-// let result = xmlToCSV3(listOfConnections, nodes);
-// fs.writeFile('test.txt', result, err => {
-//     if (err) {
-//         console.error(err);
-//     } else {
-//         // file written successfully
-//     }
-// });
+let result = xmlToCSV3(listOfConnections, nodes);
+fs.writeFile('test.txt', result, err => {
+    if (err) {
+        console.error(err);
+    } else {
+        // file written successfully
+    }
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -192,8 +193,14 @@ app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
       return res.status(400).send('No file uploaded');
   }
 
-  const filePath = req.file.path;
+  let filePath = req.file.path;
   console.log(filePath);
+
+  // Check if the platform is Windows
+  if (os.platform() === 'win32') {
+    // Convert Windows-style paths to Unix-style paths
+    filePath = filePath.split(path.sep).join('/');
+  }
 
   try {
       // Run CGFCA asynchronously
@@ -224,4 +231,47 @@ app.post('/test', (req, res) => {
   
   // Respond with status code 200
   res.sendStatus(200);
+});
+
+// This converts a contextual graph to xml that can be used in draw.io 
+const csvData = `
+Organisation,owns,Organisational Function
+Organisational Function,executed by,Role
+Role,produces/consumes,Business Object
+Role,operates at,Location
+Business Object,generalisation of,Product
+Location,at,Product
+Product,at,Location
+Product,transforms/accountable for value of,Business Service
+Business Service,transforms/accountable for value of,Product
+Business Service,delivered by,Process
+Process,uses to indicate options/choices,Gateway
+Gateway,partially or fully automates,Application/System
+Application/System,implements,Application Function
+Application Function,implemented by,Application Task
+Information Object,provided by,Application Task
+Application/System,includes,Application Task
+Application Task,interacts with,Data Entity
+Application Service,partially or fully automates,Information Object
+Application/System,includes,Application Service
+Data Object,generalisation of,Data Component
+Data Component,distributed through,Data Channel
+Data Entity,included in,Data Object
+Data Object,encapsulated by,Data Service
+Data Entity,logically specifies,Data Table
+Data Service,instantiated in,Data Table
+Data Table,specified by,Data Media
+Data Service,uses,Data Media
+Data Channel,means of distribution for,Data Service
+Data Media,hosted on,Platform Device
+Platform Device,specified by,Platform Component
+Platform Component,specifies,Infrastructure Service
+Infrastructure Service,instantiates behaviour of,Infrastructure Component
+`;
+
+const mxCellXml = csvToMxCellXml(csvData);
+
+fs.writeFile('./output.xml', mxCellXml, (err) => {
+    if (err) throw err;
+    console.log('The file has been saved!');
 });

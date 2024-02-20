@@ -1,0 +1,13 @@
+Starting node,,Node 2
+Starting node,relation,Node 1
+Starting node,relation,Node 3
+Node 2,relation,Node 5
+Node 2,relation,Node 6
+Node 3,relation,Node 7
+Node 7,relation,Node 9
+Node 9,relation,End node
+Node 6,relation,End node
+Node 5,relation,End node
+Node 1,relation,Node 4
+Node 4,relation,Node 8
+Node 8,relation,End node
