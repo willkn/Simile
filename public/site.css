@@ -37,6 +37,18 @@
     /* Black text */
 }
 
+.navbarContainer {
+    margin-top: 1%;
+    margin-bottom: 1%;
+    background-color: #333333;
+    /* Dark gray container */
+    padding: 20px;
+    border-radius: 10px;
+    /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Add shadow */
+}
+
 .container {
     margin-top: 1%;
     margin-bottom: 1%;
