@@ -1,23 +1,18 @@
 const express = require('express');
-const path = require('path');
 const { exec } = require('child_process');
-const multer = require('multer');
-const csv = require('csv-parser');
-
 const app = express();
 const port = 3000;
-const bodyParser = require('body-parser');
-
+const multer = require('multer');
 app.use(express.static('public'));
 
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-      cb(null, './cgfca/uploads') // Specify the directory where uploaded files will be stored
-  },
-  filename: function (req, file, cb) {
-      cb(null, file.originalname); // Use the original file name for the uploaded file
-  }
+    destination: function(req, file, cb) {
+        cb(null, '.\\cgfca\\uploads') // Specify the directory where uploaded files will be stored
+    },
+    filename: function(req, file, cb) {
+        cb(null, file.originalname); // Use the original file name for the uploaded file
+    }
 });
 
 const upload = multer({ storage });
@@ -29,25 +24,25 @@ const { DOMParser } = require('xmldom');
 const content = 'Some content!';
 
 function runCGFCA(arg1, arg2) {
-  return new Promise((resolve, reject) => {
-    // Replace 'program' with the actual name of your compiled C++ program
-    exec(`./cgfca/cgfca ${arg1} ${arg2}`, (error, stdout, stderr) => {
-      if (error) {
-        console.error('Error running C++ program:', error);
-        reject(error);
-      } else {
-        console.log('C++ program output:', stdout);
-        resolve(stdout);
-      }
+    return new Promise((resolve, reject) => {
+        // Replace 'program' with the actual name of your compiled C++ program
+        exec(`./cgfca/cgfca ${arg1} ${arg2}`, (error, stdout, stderr) => {
+            if (error) {
+                console.error('Error running C++ program:', error);
+                reject(error);
+            } else {
+                console.log('C++ program output:', stdout);
+                resolve(stdout);
+            }
+        });
     });
-  });
 }
 
 function xmlToGraph(pathToGraph) {
     // Read from our collection of graphs
     const xmlString = fs.readFileSync(pathToGraph, 'utf8');
     const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
+    const xmlDoc = parser.parseFromString(xmlString, 'text\\xml');
 
     // Find all <mxCell> elements within the <mxGraphModel> element
     const mxGraphModel = xmlDoc.getElementsByTagName('mxGraphModel')[0];
@@ -78,7 +73,7 @@ function xmlToGraph(pathToGraph) {
 function extractNodes(pathToGraph) {
     const xmlString = fs.readFileSync(pathToGraph, 'utf8');
     const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
+    const xmlDoc = parser.parseFromString(xmlString, 'text\\xml');
 
     // Find all <mxCell> elements within the <mxGraphModel> element
     const mxGraphModel = xmlDoc.getElementsByTagName('mxGraphModel')[0];
@@ -132,42 +127,10 @@ function removeHTMLSymbols(str) {
     return str;
 }
 
-// Function to delete every file in a directory
-function purgeDirectory(directoryPath) {
-  fs.readdir(directoryPath, (err, files) => {
-      if (err) {
-          console.error('Error reading directory:', err);
-          return;
-      }
 
-      // Iterate through each file in the directory
-      for (const file of files) {
-          const filePath = path.join(directoryPath, file);
+let listOfConnections = xmlToGraph('.\\graphs\\graph.xml');
 
-          // Check if the path is a file
-          fs.stat(filePath, (err, stats) => {
-              if (err) {
-                  console.error('Error getting file stats:', err);
-                  return;
-              }
-              if (stats.isFile()) {
-                  // Delete the file
-                  fs.unlink(filePath, (err) => {
-                      if (err) {
-                          console.error('Error deleting file:', err);
-                          return;
-                      }
-                      console.log(`Deleted file: ${filePath}`);
-                  });
-              }
-          });
-      }
-  });
-}
-
-let listOfConnections = xmlToGraph('./graphs/graph.xml');
-
-let nodes = extractNodes('./graphs/graph.xml');
+let nodes = extractNodes('.\\graphs\\graph.xml');
 
 // let result = xmlToCSV3(listOfConnections, nodes);
 // fs.writeFile('test.txt', result, err => {
@@ -178,50 +141,25 @@ let nodes = extractNodes('./graphs/graph.xml');
 //     }
 // });
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.text());
+app.use(express.json()); // For JSON body parsing
+app.use(express.urlencoded({ extended: true })); // For URL-encoded body parsing
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`Example app listening at http:\\localhost:${port}`);
 });
 
-app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
-  console.log("received!")
-  if (!req.file || !req.file.path) {
-      return res.status(400).send('No file uploaded');
-  }
+app.post('\\cgfca', upload.single('draw.ioInput'), (req, res) => {
+    runCGFCA(req.file.path);
 
-  const filePath = req.file.path;
-  console.log(filePath);
-
-  try {
-      // Run CGFCA asynchronously
-      await runCGFCA(filePath);
-      await purgeDirectory('./cgfca/uploads');
-
-      res.send('File uploaded successfully');
-  } catch (error) {
-      console.error('Error processing file:', error);
-      res.status(500).send('Error processing file');
-  }
+    res.send('File uploaded successfully');
 });
 
-app.post('/test', (req, res) => {
-  // Get the CSV data from the request body
-  const csvData = req.body;
-  
-  // Parse the CSV data
-  const parsedData = csvData.split('\n').map(line => line.split(','));
-
-  // Write the CSV data to a file
-  const fileName = 'received_data.csv';
-  const fileStream = fs.createWriteStream(fileName);
-  parsedData.forEach(row => fileStream.write(row.join(',') + '\n'));
-  fileStream.end();
-
-  runCGFCA(fileName);
-  
-  // Respond with status code 200
-  res.sendStatus(200);
+// Endpoint for C++ application to request input
+app.get('\\input', (req, res) => {
+    if (inputQueue.length > 0) {
+        const input = inputQueue.shift(); // Get the first item from the queue
+        res.status(200).send({ input: input });
+    } else {
+        res.status(404).send({ error: 'No input available' });
+    }
 });
