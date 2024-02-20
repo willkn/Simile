@@ -9,14 +9,68 @@
     left: 20px;
 }
 
-.box {
-    background-color: rgb(161, 161, 167);
-    height: 660px;
-    width: 1450px;
-    border-radius: 10px;
-    padding: 10px;
+<style>body {
+    background-color: #000000;
+    /* Black background */
+    color: #ffffff;
+    /* White text */
+}
+
+.navbar {
+    background-color: #615c5c;
+    /* Dark gray navbar */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Add shadow */
+}
+
+.footer {
     position: fixed;
-    bottom: 12%;
-    left: 6%;
-    outline: solid 5px rgb(161, 161, 167);
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #ffffff;
+    text-align: center;
+    padding: 20px 0;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    /* Add shadow */
+    color: #000000;
+    /* Black text */
+}
+
+.container {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    background-color: #333333;
+    /* Dark gray container */
+    padding: 20px;
+    border-radius: 10px;
+    /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Add shadow */
+}
+
+.btn-primary {
+    background-color: #000000;
+    /* Blue button */
+    border-color: #000000;
+    /* Blue border */
+}
+
+.btn-primary:hover {
+    background-color: #000000;
+    /* Darker blue on hover */
+    border-color: #000000;
+    /* Darker blue border on hover */
+}
+
+.form-control {
+    border-color: #ced4da;
+    /* Light gray border */
+}
+
+.home {
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    background: background-size: cover background-position: center;
 }
