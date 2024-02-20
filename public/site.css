@@ -10,14 +10,14 @@
 }
 
 .backgroundDesign {
-    background-color: #615c5c;
+    background-color: #4e4d4d;
     /* Black background */
     color: #ffffff;
     /* White text */
 }
 
 .navbar {
-    background-color: #615c5c;
+    background-color: #7c7b7b;
     /* Dark gray navbar */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     /* Add shadow */
@@ -37,16 +37,29 @@
     /* Black text */
 }
 
-.navbarContainer {
-    margin-top: 1%;
+
+/*.navbarContainer {
+    
+} */
+
+div.boxConatiner {
+    opacity: 0.8;
+    position: relative;
+    margin-top: -0.5%;
     margin-bottom: 1%;
-    background-color: #333333;
+    left: 0%;
+    background-color: #7c7b7b;
     /* Dark gray container */
-    padding: 20px;
+    padding: 30px;
+    padding-right: 83%;
     border-radius: 10px;
     /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     /* Add shadow */
+}
+
+div.navbarText {
+    color: #ffffff;
 }
 
 .container {
