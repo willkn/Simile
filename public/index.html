@@ -29,19 +29,11 @@
                         <div class="form-group">
                             <input type="text" class="form-control" id="inputField" placeholder="Enter something...">
                         </div>
-                        <button onclick="sendRequest()" class="btn btn-dark">Send</button> 
+                        <button onclick="sendRequest()" class="btn btn-dark">Send</button>
                     </div>
                 </div>
             </div>
 
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <p style="color:rgb(0, 0, 0);">Click <a href="https://app.diagrams.net/">here</a> to go to draw.io.</p>
-                    </div>
-
-
-            
             <div class="col-md-6">
                 <div class="card mb-3">
                     <div class="card-body">
@@ -51,15 +43,9 @@
                                 <label for="fileInput">Choose file to enter into CGFCA</label>
                                 <input type="file" class="form-control-file" id="fileInput" name="fileInput" accept=".xml, .cgif, .csv">
                             </div>
-                            <form method="post" action="/upload">
-                                <label class="file">
-                                        Drop a file or click to select one
-                                        <input type="file" multiple>
-                                        <!-- use multiple, even if it’s not allowed, to be able to show an info text -->
-                                </label>
-                                <button type="submit">Upload</button>
-                                <input type="file" class="form-control-file" id="file_input" name="file_input" accept=".xml, .cgif, .csv">
-                        </form>
+                            <div id="dropArea" class="drop-area">
+                                <div class="drop-text">Drag & Drop files here or click to select files</div>
+                            </div>
                             <button type="button" onclick="uploadFile()" class="btn btn-dark">Upload</button>
                         </form>
                     </div>
@@ -97,6 +83,58 @@
                 alert('Please select a file.');
                 return;
             }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            fetch('http://localhost:3000/cgfca', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Drag and Drop functionality
+        const dropArea = document.getElementById('dropArea');
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            dropArea.classList.add('highlight');
+        }
+
+        function unhighlight(e) {
+            dropArea.classList.remove('highlight');
+        }
+
+        dropArea.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            const file = files[0];
 
             const formData = new FormData();
             formData.append('file', file);
