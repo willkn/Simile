@@ -1,5 +1,4 @@
 
-
 .titlefont {
     font-family: 'Times New Roman', Times, serif;
     font-size: 55px;
@@ -13,16 +12,12 @@
 
 .backgroundDesign {
     background-color: #4e4d4d;
-    /* Black background */
     color: #ffffff;
-    /* White text */
 }
 
 .navbar {
     background-color: #7c7b7b;
-    /* Dark gray navbar */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    /* Add shadow */
 }
 
 .footer {
@@ -34,9 +29,7 @@
     text-align: center;
     padding: 20px 0;
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-    /* Add shadow */
     color: #000000;
-    /* Black text */
 }
 
 
@@ -48,13 +41,10 @@ div.boxConatiner {
     margin-bottom: 1%;
     left: 0%;
     background-color: #6d6d6d;
-    /* Dark gray container */
     padding: 30px;
     padding-right: 83%;
     border-radius: 10px;
-    /* Rounded corners */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    /* Add shadow */
 }
 
 div.navbarText {
@@ -65,31 +55,26 @@ div.navbarText {
     margin-top: 1%;
     margin-bottom: 1%;
     background-color: #6d6d6d;
-    /* Dark gray container */
     padding: 20px;
     border-radius: 10px;
-    /* Rounded corners */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    /* Add shadow */
+   
 }
 
 .btn-primary {
     background-color: #000000;
-    /* Blue button */
     border-color: #000000;
-    /* Blue border */
+
 }
 
 .btn-primary:hover {
     background-color: #000000;
-    /* Darker blue on hover */
     border-color: #000000;
-    /* Darker blue border on hover */
+    
 }
 
 .form-control {
     border-color: #fafafa;
-    /* Light gray border */
 }
 
 .home {
