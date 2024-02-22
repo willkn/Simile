@@ -31,8 +31,6 @@
     color: #000000;
 }
 
-
-
 div.boxConatiner {
     opacity: 0.8;
     position: relative;
@@ -57,19 +55,16 @@ div.navbarText {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-   
 }
 
 .btn-primary {
     background-color: #000000;
     border-color: #000000;
-
 }
 
 .btn-primary:hover {
     background-color: #000000;
     border-color: #000000;
-    
 }
 
 .form-control {
@@ -83,9 +78,8 @@ div.navbarText {
     background: background-size: cover background-position: center;
 }
 
-
 .backgroundDesign {
-    background-image: url('./images/Mainpictwo.jpg'); 
+    background-image: url('./images/Mainpictwo.jpg');
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
@@ -96,6 +90,7 @@ div.navbarText {
 
 
 /* drop box css */
+
 #drop-area {
     border: 2px dashed #000000;
     border-radius: 20px;
@@ -109,4 +104,8 @@ div.navbarText {
 
 #drop-area.highlight {
     border-color: rgb(0, 0, 0);
+}
+
+ul.a {
+    list-style-type: circle;
 }
