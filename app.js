@@ -233,7 +233,7 @@ app.post('/test', (req, res) => {
   res.sendStatus(200);
 });
 
-// This converts a contextual graph to xml that can be used in draw.io 
+// This example converts a contextual graph to xml that can be used in draw.io 
 const csvData = `
 Organisation,owns,Organisational Function
 Organisational Function,executed by,Role
