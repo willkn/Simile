@@ -95,4 +95,18 @@ div.navbarText {
 }
 
 
+/* drop box css */
+#drop-area {
+    border: 2px dashed #000000;
+    border-radius: 20px;
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
 
+#drop-area.highlight {
+    border-color: rgb(0, 0, 0);
+}
