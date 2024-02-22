@@ -90,6 +90,8 @@ div.navbarText {
 
 
 /* drop box css */
+
+
 /*
 #drop-area {
     border: 2px dashed #000000;
@@ -120,16 +122,18 @@ ul.a {
     font-family: Arial, sans-serif;
     font-size: 1.2em;
     margin-bottom: 20px;
-    min-height: 200px; /* Adjust the height as needed */
+    min-height: 200px;
+    /* Adjust the height as needed */
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 0 auto; 
+    margin: 0 auto;
     width: fit-content;
 }
 
-#drop-area > div {
-    margin: 100px auto; /* Center the file input button */
+#drop-area>div {
+    margin: 100px auto;
+    /* Center the file input button */
 }
 
 #drop-area.highlight {
