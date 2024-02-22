@@ -79,7 +79,7 @@ div.navbarText {
 }
 
 .backgroundDesign {
-    background-image: url('./images/Mainpictwo.jpg');
+    background-image: url('./images/Mainpictwo.jpg');  /*Reference for the picture----> Delberghe, J. (2019, May 23). a close up of a white wall with wavy lines. Unsplash. https://unsplash.com/photos/a-close-up-of-a-white-wall-with-wavy-lines-75xPHEQBmvA */
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
