@@ -186,27 +186,45 @@ app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
 
-app.post('/cgfca', upload.single('draw.ioInput'), async(req, res) => {
-    console.log("received!")
+app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
+    console.log("received!");
     if (!req.file || !req.file.path) {
         return res.status(400).send('No file uploaded');
     }
 
-    let filePath = req.file.path;
-
-    // No need to manually change slashes - path.join() handles it
+    const filePath = req.file.path;
 
     try {
         // Run CGFCA asynchronously
         await runCGFCA(filePath);
-        await purgeDirectory(path.join(__dirname, 'cgfca', 'uploads'));
 
-        res.send('File uploaded successfully');
+        // Specify the directory and file name for the generated file
+        const generatedDir = path.join(__dirname, 'cxt');
+        const fileName = 'generated_file.cxt';
+        const generatedFilePath = path.join(generatedDir, fileName);
+
+        // Check if the directory exists, if not, create it
+        if (!fs.existsSync(generatedDir)) {
+            fs.mkdirSync(generatedDir, { recursive: true });
+        }
+
+        // Move the generated file to the cxt directory
+        fs.renameSync(filePath, generatedFilePath);
+
+        // Send the generated file for download
+        res.download(generatedFilePath, fileName, (err) => {
+            if (err) {
+                console.error('Error sending file:', err);
+                res.sendStatus(500); // Internal server error
+            } else {
+                console.log('File sent successfully');
+            }
+        });
     } catch (error) {
         console.error('Error processing file:', error);
         res.status(500).send('Error processing file');
     }
-})
+});
 
 app.post('/test', (req, res) => {
     // Get the CSV data from the request body

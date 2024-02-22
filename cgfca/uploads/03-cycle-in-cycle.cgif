@@ -1,2 +1,0 @@
-[City: Sheffield] [Country: UK] [Person: Simon] [Hotel: OpenSky] [Coach: #564] [City: London] 
-(city-in London UK)(location-of London OpenSky)(destination #564 London)(has-city UK Sheffield)(booked-by OpenSky Simon)(travels-by Simon #564)(home-of Sheffield Simon)
