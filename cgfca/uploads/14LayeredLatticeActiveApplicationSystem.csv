@@ -1,0 +1,17 @@
+Organisation,owns,Organisational Function
+Role,participates in,Organisational Function
+Role,produces/consumes,Business Object
+Role,operates at,Location
+Product,specialisation of,Business Object
+Location,at,Product
+Product,transforms/accountable for value of,Business Service
+Process,delivered by,Business Service
+Process,uses to indicate options/choices,Gateway
+Application/System,partially or fully automates,Gateway
+Application Task,implements,Application Function
+Application/System,implements,Application Function
+Application Task,provides,Information Object
+Application/System,includes,Application Task
+Application Task,interacts with,Data Entity
+Application Service,partially or fully automates,Information Object
+Application/System,includes,Application Service

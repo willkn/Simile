@@ -40,7 +40,7 @@
             <button type="submit">Enter</button>
         </div>
     </form>
-    
+
     <textarea id="text"></textarea>
     <br />
     <input type="button" id="btn" value="Download" />
@@ -56,7 +56,7 @@
         }
 
         // Start file download.
-        document.getElementById("btn").addEventListener("click", function () {
+        document.getElementById("btn").addEventListener("click", function() {
             var text = document.getElementById("text").value;
             var filename = "User.txt";
             download(filename, text);
