@@ -5,6 +5,8 @@ const multer = require('multer');
 const csv = require('csv-parser');
 const csvToMxCellXml = require('./csvToXML');
 const os = require('os'); // Required to check the operating system
+const fs = require('fs');
+const { DOMParser } = require('xmldom');
 
 const app = express();
 const port = 3000;
@@ -12,37 +14,34 @@ const bodyParser = require('body-parser');
 
 app.use(express.static('public'));
 
-
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-      cb(null, './cgfca/uploads') // Specify the directory where uploaded files will be stored
-  },
-  filename: function (req, file, cb) {
-      cb(null, file.originalname); // Use the original file name for the uploaded file
-  }
+    destination: function (req, file, cb) {
+        cb(null, path.join(__dirname, 'cgfca', 'uploads')) // Use path.join() for cross-platform compatibility
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname); // Use the original file name for the uploaded file
+    }
 });
 
 const upload = multer({ storage });
 
-const fs = require('fs');
-const { DOMParser } = require('xmldom');
 
 const content = 'Some content!';
 
 function runCGFCA(arg1, arg2) {
-  return new Promise((resolve, reject) => {
-    // Replace 'program' with the actual name of your compiled C++ program
-    exec(`./cgfca/cgfca ${arg1} ${arg2}`, (error, stdout, stderr) => {
-      if (error) {
-        console.error('Error running C++ program:', error);
-        reject(error);
-      } else {
-        console.log('C++ program output:', stdout);
-        resolve(stdout);
-      }
+    const command = path.join('.', 'cgfca', 'cgfca') + ` ${arg1} ${arg2}`; // Use path.join() for the command path
+    return new Promise((resolve, reject) => {
+      exec(command, (error, stdout, stderr) => {
+        if (error) {
+          console.error('Error running C++ program:', error);
+          reject(error);
+        } else {
+          console.log('C++ program output:', stdout);
+          resolve(stdout);
+        }
+      });
     });
-  });
-}
+  }
 
 function xmlToGraph(pathToGraph) {
     // Read from our collection of graphs
@@ -166,12 +165,12 @@ function purgeDirectory(directoryPath) {
   });
 }
 
-let listOfConnections = xmlToGraph('./graphs/graph.xml');
+let listOfConnections = xmlToGraph(path.join('.', 'graphs', 'graph.xml'));
 
-let nodes = extractNodes('./graphs/graph.xml');
+let nodes = extractNodes(path.join('.', 'graphs', 'graph.xml'));
 
 let result = xmlToCSV3(listOfConnections, nodes);
-fs.writeFile('test.txt', result, err => {
+fs.writeFile(path.join('.', 'test.txt'), result, err => {
     if (err) {
         console.error(err);
     } else {
@@ -188,31 +187,26 @@ app.listen(port, () => {
 });
 
 app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
-  console.log("received!")
-  if (!req.file || !req.file.path) {
-      return res.status(400).send('No file uploaded');
-  }
-
-  let filePath = req.file.path;
-  console.log(filePath);
-
-  // Check if the platform is Windows
-  if (os.platform() === 'win32') {
-    // Convert Windows-style paths to Unix-style paths
-    filePath = filePath.split(path.sep).join('/');
-  }
-
-  try {
-      // Run CGFCA asynchronously
-      await runCGFCA(filePath);
-      await purgeDirectory('./cgfca/uploads');
-
-      res.send('File uploaded successfully');
-  } catch (error) {
-      console.error('Error processing file:', error);
-      res.status(500).send('Error processing file');
-  }
-});
+    console.log("received!")
+    if (!req.file || !req.file.path) {
+        return res.status(400).send('No file uploaded');
+    }
+  
+    let filePath = req.file.path;
+  
+    // No need to manually change slashes - path.join() handles it
+  
+    try {
+        // Run CGFCA asynchronously
+        await runCGFCA(filePath);
+        await purgeDirectory(path.join(__dirname, 'cgfca', 'uploads'));
+  
+        res.send('File uploaded successfully');
+    } catch (error) {
+        console.error('Error processing file:', error);
+        res.status(500).send('Error processing file');
+    }
+  })
 
 app.post('/test', (req, res) => {
   // Get the CSV data from the request body
