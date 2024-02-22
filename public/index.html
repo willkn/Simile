@@ -38,9 +38,9 @@
                 <div class="card mb-3">
                     <form id="file-upload-form" method="post" enctype="multipart/form-data" action="http://localhost:3000/cgfca">
                         <div id="drop-area">
-                            <h5 style= "color:black";>Drag and drop files here or click to select files</h5>
+                            <h5 style="color:black" ;>Drag and drop files here or click to select files</h5>
                             <input type="file" id="fileInput" class="form-control-file" name="draw.ioInput" accept=".xml, .cgif, .csv" style="display: none;">
-                            <ul style= "color:black"; id="file-list"></ul>
+                            <ul style="color:black" ; id="file-list"></ul>
                         </div>
                         <button type="submit" class="btn btn-dark">Submit</button>
                         <h5 style="color:black;" class="card-title">Enter File into CGFCA</h5>
@@ -53,92 +53,100 @@
                 <div class="card mb-3">
                     <div class="card-body">
                         <p style="color:rgb(0, 0, 0);">Click <a href="https://app.diagrams.net/">here</a> to go to draw.io.</p>
+                        <h6 style="color:rgb(0, 0, 0);">To view your Knowledge Graph from Draw.IO follow these steps:</h6>
+                        <ul>
+                            <li> Go to 'File' -> 'Embed' -> 'HTML'</li>
+                            <li> Click 'Create' and then Copy the code you're given</li>
+                            <li> Then open the code and go to 'index.html'</li>
+                            <li> Scroll down and fine the comment 'DRAW.IO GRAPH' and paste the code below it</li>
+                            <li> Refresh the website and you will be able to view your Conceptual Graph</li>
+                        </ul>
+                        <p></p>
+                        <div>
+                            <!--DRAW.IO GRAPH-->
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="footer">
-        <p>Simile Logics Limited established</p>
-    </div>
+                    <div class="footer">
+                        <p>Simile Logics Limited established</p>
+                    </div>
 
-    <script>
-        function sendRequest() {
-            const value = document.getElementById('inputField').value;
-            fetch('http://localhost:3000/cgfca', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        data: value
-                    }),
-                })
-                .then(response => response.json())
-                .then(data => console.log(data))
-                .catch((error) => console.error('Error:', error));
-        }
+                    <script>
+                        function sendRequest() {
+                            const value = document.getElementById('inputField').value;
+                            fetch('http://localhost:3000/cgfca', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+                                        data: value
+                                    }),
+                                })
+                                .then(response => response.json())
+                                .then(data => console.log(data))
+                                .catch((error) => console.error('Error:', error));
+                        }
 
-        // File upload handling
-        let dropArea = document.getElementById('drop-area');
+                        // File upload handling
+                        let dropArea = document.getElementById('drop-area');
 
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropArea.addEventListener(eventName, preventDefaults, false);
-        });
+                        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                            dropArea.addEventListener(eventName, preventDefaults, false);
+                        });
 
-        function preventDefaults(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
+                        function preventDefaults(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                        }
 
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropArea.addEventListener(eventName, highlight, false);
-        });
+                        ['dragenter', 'dragover'].forEach(eventName => {
+                            dropArea.addEventListener(eventName, highlight, false);
+                        });
 
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropArea.addEventListener(eventName, unhighlight, false);
-        });
+                        ['dragleave', 'drop'].forEach(eventName => {
+                            dropArea.addEventListener(eventName, unhighlight, false);
+                        });
 
-        function highlight() {
-            dropArea.classList.add('highlight');
-        }
+                        function highlight() {
+                            dropArea.classList.add('highlight');
+                        }
 
-        function unhighlight() {
-            dropArea.classList.remove('highlight');
-        }
+                        function unhighlight() {
+                            dropArea.classList.remove('highlight');
+                        }
 
-        dropArea.addEventListener('drop', handleDrop, false);
+                        dropArea.addEventListener('drop', handleDrop, false);
 
-        function handleDrop(e) {
-            let dt = e.dataTransfer;
-            let files = dt.files;
+                        function handleDrop(e) {
+                            let dt = e.dataTransfer;
+                            let files = dt.files;
 
-            if (files.length === 0) {
-                alert('Error: No file uploaded.');
-            } else {
-                handleFiles(files);
-                alert('File(s) uploaded successfully.');
-            }
-        }
+                            if (files.length === 0) {
+                                alert('Error: No file uploaded.');
+                            } else {
+                                handleFiles(files);
+                                alert('File(s) uploaded successfully.');
+                            }
+                        }
 
-        function handleFiles(files) {
-            const fileList = document.getElementById('file-list');
-            fileList.innerHTML = ''; // Clear previous file list
+                        function handleFiles(files) {
+                            const fileList = document.getElementById('file-list');
+                            fileList.innerHTML = ''; // Clear previous file list
 
-            for (let i = 0; i < files.length; i++) {
-            let file = files[i];
-            console.log(file.name);
+                            for (let i = 0; i < files.length; i++) {
+                                let file = files[i];
+                                console.log(file.name);
 
-        // Create a list item for each file
-        const listItem = document.createElement('li');
-        listItem.textContent = file.name;
+                                // Create a list item for each file
+                                const listItem = document.createElement('li');
+                                listItem.textContent = file.name;
 
-        // Append the list item to the file list
-        fileList.appendChild(listItem);
-    }
-        }
-    </script>
+                                // Append the list item to the file list
+                                fileList.appendChild(listItem);
+                            }
+                        }
+                    </script>
 
 </body>
 
