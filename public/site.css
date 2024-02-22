@@ -124,6 +124,12 @@ ul.a {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin: 0 auto; 
+    width: fit-content;
+}
+
+#drop-area > div {
+    margin: 100px auto; /* Center the file input button */
 }
 
 #drop-area.highlight {
