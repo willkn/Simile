@@ -1,0 +1,2 @@
+["Material": "Fleece"] ["Cat": "Gwyn"] ["Mat": *x1] ["Cat": "Bumbles"] ["Colour": "Grey"] 
+(sits-on "Bumbles" "Gwyn" ?"x1")(has-attribute "Fleece" "Grey")(made-from ?"x1" "Fleece")

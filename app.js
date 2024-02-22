@@ -15,10 +15,10 @@ const bodyParser = require('body-parser');
 app.use(express.static('public'));
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
+    destination: function(req, file, cb) {
         cb(null, path.join(__dirname, 'cgfca', 'uploads')) // Use path.join() for cross-platform compatibility
     },
-    filename: function (req, file, cb) {
+    filename: function(req, file, cb) {
         cb(null, file.originalname); // Use the original file name for the uploaded file
     }
 });
@@ -31,17 +31,17 @@ const content = 'Some content!';
 function runCGFCA(arg1, arg2) {
     const command = path.join('.', 'cgfca', 'cgfca') + ` ${arg1} ${arg2}`; // Use path.join() for the command path
     return new Promise((resolve, reject) => {
-      exec(command, (error, stdout, stderr) => {
-        if (error) {
-          console.error('Error running C++ program:', error);
-          reject(error);
-        } else {
-          console.log('C++ program output:', stdout);
-          resolve(stdout);
-        }
-      });
+        exec(command, (error, stdout, stderr) => {
+            if (error) {
+                console.error('Error running C++ program:', error);
+                reject(error);
+            } else {
+                console.log('C++ program output:', stdout);
+                resolve(stdout);
+            }
+        });
     });
-  }
+}
 
 function xmlToGraph(pathToGraph) {
     // Read from our collection of graphs
@@ -134,35 +134,35 @@ function removeHTMLSymbols(str) {
 
 // Function to delete every file in a directory
 function purgeDirectory(directoryPath) {
-  fs.readdir(directoryPath, (err, files) => {
-      if (err) {
-          console.error('Error reading directory:', err);
-          return;
-      }
+    fs.readdir(directoryPath, (err, files) => {
+        if (err) {
+            console.error('Error reading directory:', err);
+            return;
+        }
 
-      // Iterate through each file in the directory
-      for (const file of files) {
-          const filePath = path.join(directoryPath, file);
+        // Iterate through each file in the directory
+        for (const file of files) {
+            const filePath = path.join(directoryPath, file);
 
-          // Check if the path is a file
-          fs.stat(filePath, (err, stats) => {
-              if (err) {
-                  console.error('Error getting file stats:', err);
-                  return;
-              }
-              if (stats.isFile()) {
-                  // Delete the file
-                  fs.unlink(filePath, (err) => {
-                      if (err) {
-                          console.error('Error deleting file:', err);
-                          return;
-                      }
-                      console.log(`Deleted file: ${filePath}`);
-                  });
-              }
-          });
-      }
-  });
+            // Check if the path is a file
+            fs.stat(filePath, (err, stats) => {
+                if (err) {
+                    console.error('Error getting file stats:', err);
+                    return;
+                }
+                if (stats.isFile()) {
+                    // Delete the file
+                    fs.unlink(filePath, (err) => {
+                        if (err) {
+                            console.error('Error deleting file:', err);
+                            return;
+                        }
+                        console.log(`Deleted file: ${filePath}`);
+                    });
+                }
+            });
+        }
+    });
 }
 
 let listOfConnections = xmlToGraph(path.join('.', 'graphs', 'graph.xml'));
@@ -186,45 +186,45 @@ app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
 
-app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
+app.post('/cgfca', upload.single('draw.ioInput'), async(req, res) => {
     console.log("received!")
     if (!req.file || !req.file.path) {
         return res.status(400).send('No file uploaded');
     }
-  
+
     let filePath = req.file.path;
-  
+
     // No need to manually change slashes - path.join() handles it
-  
+
     try {
         // Run CGFCA asynchronously
         await runCGFCA(filePath);
         await purgeDirectory(path.join(__dirname, 'cgfca', 'uploads'));
-  
+
         res.send('File uploaded successfully');
     } catch (error) {
         console.error('Error processing file:', error);
         res.status(500).send('Error processing file');
     }
-  })
+})
 
 app.post('/test', (req, res) => {
-  // Get the CSV data from the request body
-  const csvData = req.body;
-  
-  // Parse the CSV data
-  const parsedData = csvData.split('\n').map(line => line.split(','));
+    // Get the CSV data from the request body
+    const csvData = req.body;
 
-  // Write the CSV data to a file
-  const fileName = 'received_data.csv';
-  const fileStream = fs.createWriteStream(fileName);
-  parsedData.forEach(row => fileStream.write(row.join(',') + '\n'));
-  fileStream.end();
+    // Parse the CSV data
+    const parsedData = csvData.split('\n').map(line => line.split(','));
 
-  runCGFCA(fileName);
-  
-  // Respond with status code 200
-  res.sendStatus(200);
+    // Write the CSV data to a file
+    const fileName = 'received_data.csv';
+    const fileStream = fs.createWriteStream(fileName);
+    parsedData.forEach(row => fileStream.write(row.join(',') + '\n'));
+    fileStream.end();
+
+    runCGFCA(fileName);
+
+    // Respond with status code 200
+    res.sendStatus(200);
 });
 
 // This example converts a contextual graph to xml that can be used in draw.io 
