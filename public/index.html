@@ -121,18 +121,24 @@
 
                         function handleFiles(files) {
                             const fileList = document.getElementById('file-list');
+                            const noFileChosen = document.getElementById('no-file-chosen');
                             fileList.innerHTML = ''; // Clear previous file list
 
-                            for (let i = 0; i < files.length; i++) {
-                                let file = files[i];
-                                console.log(file.name);
+                            if (files.length === 0) {
+                                noFileChosen.style.display = 'inline'; // Display "No file chosen" label
+                            } else {
+                                noFileChosen.style.display = 'none'; // Hide "No file chosen" label
+                                for (let i = 0; i < files.length; i++) {
+                                    let file = files[i];
+                                    console.log(file.name);
 
-                                // Create a list item for each file
-                                const listItem = document.createElement('li');
-                                listItem.textContent = file.name;
+                                    // Create a list item for each file
+                                    const listItem = document.createElement('li');
+                                    listItem.textContent = file.name;
 
-                                // Append the list item to the file list
-                                fileList.appendChild(listItem);
+                                    // Append the list item to the file list
+                                    fileList.appendChild(listItem);
+                                }
                             }
                         }
                     </script>
