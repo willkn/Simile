@@ -25,19 +25,17 @@
 
             <div class="col-md-6">
                 <div class="card mb-3">
-                    <div id="drop-area" style="text-align: center;">
                     <form id="file-upload-form" method="post" enctype="multipart/form-data" action="http://localhost:3000/cgfca">
                         <h5 style="color:black;" class="card-title">Enter File into CGFCA</h5>
                         <div id="drop-area">
                             <h5 style="color:black" ;>Drag and drop files here or click to select files</h5>
                             <input type="file" id="fileInput" class="form-control-file" name="draw.ioInput" accept=".xml, .cgif, .csv">
-                            <ul style="color:black" ;  id="file-list"></ul>
+                            <ul style="color:black" ; id="file-list"></ul>
                         </div>
                         <button type="submit" class="btn btn-dark">Submit</button>
                     </form>
                 </div>
             </div>
-        </div> 
 
             <div class="col-md-6">
                 <div class="card mb-3">
@@ -120,23 +118,21 @@
                         }
 
                         function handleFiles(files) {
-                        const fileList = document.getElementById('file-list');
-                         fileList.innerHTML = ''; // Clear previous file list
+                            const fileList = document.getElementById('file-list');
+                            fileList.innerHTML = ''; // Clear previous file list
 
-                        for (let i = 0; i < files.length; i++) {
-                             let file = files[i];
-                             console.log(file.name);
+                            for (let i = 0; i < files.length; i++) {
+                                let file = files[i];
+                                console.log(file.name);
 
-                         // Create a list item for each file
-                        const listItem = document.createElement('li');
-                         listItem.textContent = file.name;
+                                // Create a list item for each file
+                                const listItem = document.createElement('li');
+                                listItem.textContent = file.name;
 
-                         // Append the list item to the file list
-                         fileList.appendChild(listItem);
-                         }
-                    }
-
-                        
+                                // Append the list item to the file list
+                                fileList.appendChild(listItem);
+                            }
+                        }
                     </script>
 
 </body>
