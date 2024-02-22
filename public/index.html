@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMILIE LOGICS LIMITED</title>
+    <title>SIMILE LOGICS LIMITED</title>
     <link rel="stylesheet" href="site.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
@@ -14,7 +14,7 @@
         <nav>
             <div class="boxConatiner">
                 <div class="navbarText">
-                    <a class="navbar-brand"></a><b>SIMILIE LOGICS LIMITED</b></a>
+                    <a class="navbar-brand"></a><b>SIMILE LOGICS LIMITED</b></a>
                 </div>
             </div>
         </nav>
@@ -60,7 +60,7 @@
     </div>
 
     <div class="footer">
-        <p>Footer</p>
+        <p>Simile Logics Limited established</p>
     </div>
 
     <script>
@@ -114,7 +114,12 @@
             let dt = e.dataTransfer;
             let files = dt.files;
 
-            handleFiles(files);
+            if (files.length === 0) {
+                alert('Error: No file uploaded.');
+            } else {
+                handleFiles(files);
+                alert('File(s) uploaded successfully.');
+            }
         }
 
         function handleFiles(files) {
