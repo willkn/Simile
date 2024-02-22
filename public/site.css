@@ -120,7 +120,7 @@ ul.a {
     font-family: Arial, sans-serif;
     font-size: 1.2em;
     margin-bottom: 20px;
-    min-height: 200px; /* Adjust the height as needed */
+    min-height: 200px; 
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -129,7 +129,7 @@ ul.a {
 }
 
 #drop-area > div {
-    margin: 100px auto; /* Center the file input button */
+    margin: 100px auto; 
 }
 
 #drop-area.highlight {
