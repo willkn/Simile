@@ -245,6 +245,19 @@ app.post('/test', (req, res) => {
     res.sendStatus(200);
 });
 
+app.get('/getXML', (req, res) => {
+    const filePath = path.join(__dirname, './output.xml'); // Adjust the path as necessary
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error('Error reading XML file:', err);
+            res.sendStatus(500); // Internal Server Error
+            return;
+        }
+        res.type('application/xml');
+        res.send(data);
+    });
+});
+
 // This example converts a contextual graph to xml that can be used in draw.io 
 const csvData = `
 Organisation,owns,Organisational Function
