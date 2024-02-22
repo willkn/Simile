@@ -21,69 +21,44 @@
         </nav>
     </header>
 
-    <div class="scrollable-content">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h5 style="color:rgb(0, 0, 0);" class="card-title">Send Request to Another Server</h5>
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="inputField" placeholder="Enter something...">
-                            </div>
-                            <button onclick="sendRequest()" class="btn btn-dark">Send</button>
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <form id="file-upload-form" method="post" enctype="multipart/form-data" action="http://localhost:3000/cgfca">
+                        <h5 style="color:black;" class="card-title">Enter File into CGFCA</h5>
+                        <div id="drop-area">
+                            <h5 style="color:black" ;>Drag and drop files here or click to select files</h5>
+                            <input type="file" id="fileInput" class="form-control-file" name="draw.ioInput" accept=".xml, .cgif, .csv">
+                            <ul style="color:black" ; id="file-list"></ul>
                         </div>
-                    </div>
-                </div>
-
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p style="color:rgb(255, 255, 255);">Click <a href="https://app.diagrams.net/">here</a> to go to draw.io.</p>
-                            <h6 style="color:rgb(255, 255, 255);">To view your Knowledge Graph from Draw.IO follow these steps:</h6>
-                            <ul>
-                                <li> Go to 'File' -> 'Embed' -> 'HTML'</li>
-                                <li> Click 'Create' and then Copy the code you're given</li>
-                                <li> Paste this code into the box below</li>
-                            </ul>
-                            <p></p>
-                            <div>
-                                <!--DRAW.IO GRAPH-->
-                            </div>
-                        </div>
-
-
-
-                        <div class="col-md-6">
-                            <div class="card mb-3">
-                                <div class="card-body">
-                                    <h5 class="card-title">Enter File into CGFCA</h5>
-                                    <form id="uploadForm" enctype="multipart/form-data">
-                                        <div class="form-group">
-                                            <label for="fileInput">Choose file to enter into CGFCA</label>
-                                            <input type="file" class="form-control-file" id="fileInput" name="fileInput" accept=".xml, .cgif, .csv">
-                                        </div>
-                                        <form method="post" action="/upload">
-                                            <label class="file">
-                                        Drop a file or click to select one
-                                        <input type="file" multiple>
-                                        <!-- use multiple, even if it’s not allowed, to be able to show an info text -->
-                                </label>
-                                            <button type="submit">Upload</button>
-                                            <input type="file" class="form-control-file" id="file_input" name="file_input" accept=".xml, .cgif, .csv">
-                                        </form>
-                                        <button type="button" onclick="uploadFile()" class="btn btn-dark">Upload</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        <button type="submit" class="btn btn-dark">Submit</button>
+                    </form>
                 </div>
             </div>
 
-            <div class="footer">
-                <p>Footer</p>
-            </div>
+
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 style="color:rgb(0, 0, 0);">Click <a href="https://app.diagrams.net/">here</a> to go to draw.io.</h5>
+                        <h6 style="color:rgb(0, 0, 0);">To view your Knowledge Graph from Draw.IO follow these steps:</h6>
+                        <ul style="color:rgb(0, 0, 0);">
+                            <li> Go to 'File' -> 'Embed' -> 'HTML'</li>
+                            <li> Click 'Create' and then Copy the code you're given</li>
+                            <li> Then open the code and go to 'index.html'</li>
+                            <li> Scroll down and find the comment 'DRAW.IO GRAPH' and paste the code below it</li>
+                            <li> Refresh the website and you will be able to view your Conceptual Graph</li>
+                        </ul>
+                        <div>
+                            <!--DRAW.IO GRAPH-->
+                        </div>
+                    </div>
+
+                    <footer class="footer">
+                        <p>&copy; 2024 SIMILE LOGICS LIMITED. All rights reserved.</p>
+                    </footer>
 
             <script>
                 function sendRequest() {

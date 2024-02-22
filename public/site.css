@@ -24,11 +24,11 @@
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color: #6d6d6d;
+    background-color: #333;
     text-align: center;
     padding: 20px 0;
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-    color: #000000;
+    color: #fff;
 }
 
 div.boxConatiner {
@@ -90,7 +90,7 @@ div.navbarText {
 
 
 /* drop box css */
-
+/*
 #drop-area {
     border: 2px dashed #000000;
     border-radius: 20px;
@@ -108,4 +108,34 @@ div.navbarText {
 
 ul.a {
     list-style-type: circle;
+}
+*/
+
+#drop-area {
+    border: 2px dashed #ccc;
+    border-radius: 20px;
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    min-height: 200px; /* Adjust the height as needed */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#drop-area.highlight {
+    border-color: purple;
+}
+
+#file-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#file-list li {
+    margin-bottom: 5px;
 }
