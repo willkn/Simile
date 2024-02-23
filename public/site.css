@@ -24,11 +24,11 @@
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color: #333;
+    background-color: #d3d2d2;
     text-align: center;
     padding: 20px 0;
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-    color: #fff;
+    color: #000000;
 }
 
 div.boxConatiner {
@@ -37,7 +37,7 @@ div.boxConatiner {
     margin-top: -0.5%;
     margin-bottom: 1%;
     left: 0%;
-    background-color: #6d6d6d;
+    background-color: #d3d2d2;
     padding: 30px;
     padding-right: 83%;
     border-radius: 10px;
@@ -79,7 +79,8 @@ div.navbarText {
 }
 
 .backgroundDesign {
-    background-image: url('./images/Mainpictwo.jpg');  /*Reference for the picture----> Delberghe, J. (2019, May 23). a close up of a white wall with wavy lines. Unsplash. https://unsplash.com/photos/a-close-up-of-a-white-wall-with-wavy-lines-75xPHEQBmvA */
+    background-image: url('./images/Mainpictwo.jpg');
+    /*Reference for the picture----> Delberghe, J. (2019, May 23). a close up of a white wall with wavy lines. Unsplash. https://unsplash.com/photos/a-close-up-of-a-white-wall-with-wavy-lines-75xPHEQBmvA */
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
