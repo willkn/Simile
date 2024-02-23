@@ -25,9 +25,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-
-const content = 'Some content!';
-
 function runCGFCA(arg1, arg2) {
     const command = path.join('.', 'cgfca', 'cgfca') + ` ${arg1} ${arg2}`; // Use path.join() for the command path
     return new Promise((resolve, reject) => {
@@ -143,27 +140,34 @@ function purgeDirectory(directoryPath) {
         // Iterate through each file in the directory
         for (const file of files) {
             const filePath = path.join(directoryPath, file);
+            const fileExtension = path.extname(file);
 
-            // Check if the path is a file
-            fs.stat(filePath, (err, stats) => {
-                if (err) {
-                    console.error('Error getting file stats:', err);
-                    return;
-                }
-                if (stats.isFile()) {
-                    // Delete the file
-                    fs.unlink(filePath, (err) => {
-                        if (err) {
-                            console.error('Error deleting file:', err);
-                            return;
-                        }
-                        console.log(`Deleted file: ${filePath}`);
-                    });
-                }
-            });
+            // Check if the path is a file and if the extension is not .txt
+            if (fileExtension !== '.txt') {
+                fs.stat(filePath, (err, stats) => {
+                    if (err) {
+                        console.error('Error getting file stats:', err);
+                        return;
+                    }
+                    if (stats.isFile()) {
+                        // Delete the file
+                        fs.unlink(filePath, (err) => {
+                            if (err) {
+                                console.error('Error deleting file:', err);
+                                return;
+                            }
+                            console.log(`Deleted file: ${filePath}`);
+                        });
+                    }
+                });
+            } else {
+                // Log skipping .txt files
+                console.log(`Skipped .txt file: ${filePath}`);
+            }
         }
     });
 }
+
 
 let listOfConnections = xmlToGraph(path.join('.', 'graphs', 'graph.xml'));
 
@@ -198,17 +202,21 @@ app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
         // Run CGFCA asynchronously
         await runCGFCA(filePath);
 
-        // Specify the directory and file name for the generated file
-        const generatedDir = path.join(__dirname, 'cxt');
+        // Specify the directory to be purged and the one for the generated file
+        const purgeDir = './cgfca/cxt'; // Directory to purge
+        const generatedDir = path.join(__dirname, './cgfca/cxt');
         const fileName = 'generated_file.cxt';
         const generatedFilePath = path.join(generatedDir, fileName);
+
+        // Purge the specified directory
+        await purgeDirectory(purgeDir);
 
         // Check if the directory exists, if not, create it
         if (!fs.existsSync(generatedDir)) {
             fs.mkdirSync(generatedDir, { recursive: true });
         }
 
-        // Move the generated file to the cxt directory
+        // Move the generated file to the specified directory
         fs.renameSync(filePath, generatedFilePath);
 
         // Send the generated file for download
@@ -244,6 +252,7 @@ app.post('/test', (req, res) => {
     // Respond with status code 200
     res.sendStatus(200);
 });
+
 
 app.get('/getXML', (req, res) => {
     const filePath = path.join(__dirname, './output.xml'); // Adjust the path as necessary

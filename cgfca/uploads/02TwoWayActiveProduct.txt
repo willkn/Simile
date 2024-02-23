@@ -1,0 +1,71 @@
+Triples to Binaries Report for /home/will/simile/cgfca/uploads/02TwoWayActiveProduct.csv
+
+
+
+Inputs: "Organisation" "Organisational Function" "Role" "Business Object" "Location" "Product" "Business Service" "Process" "Gateway" "Application/System" "Application Function" "Information Object" "Application Task" "Application Service" "Data Object" "Data Component" "Data Entity" "Data Service" "Data Table" "Data Channel" "Data Media" "Platform Device" "Platform Component" "Infrastructure Service" 
+
+Outputs: "Organisational Function" "Role" "Business Object" "Location" "Product" "Business Service" "Process" "Gateway" "Application/System" "Application Function" "Application Task" "Data Entity" "Information Object" "Application Service" "Data Component" "Data Channel" "Data Object" "Data Service" "Data Table" "Data Media" "Platform Device" "Platform Component" "Infrastructure Service" "Infrastructure Component" 
+
+Direct Pathway: Organisation - owns - Organisational Function
+
+Direct Pathway: Organisational Function - executed by - Role
+
+Direct Pathway: Role - produces/consumes - Business Object
+
+Direct Pathway: Role - operates at - Location
+
+Direct Pathway: Business Object - generalisation of - Product
+
+Direct Pathway: Location - at - Product
+
+Direct Pathway: Product - at - Location
+
+Direct Pathway: Product - transforms/accountable for value of - Business Service
+
+Direct Pathway: Business Service - transforms/accountable for value of - Product
+
+Direct Pathway: Business Service - delivered by - Process
+
+Direct Pathway: Process - uses to indicate options/choices - Gateway
+
+Direct Pathway: Gateway - partially or fully automates - Application/System
+
+Direct Pathway: Application/System - implements - Application Function
+
+Direct Pathway: Application Function - implemented by - Application Task
+
+Direct Pathway: Information Object - provided by - Application Task
+
+Direct Pathway: Application/System - includes - Application Task
+
+Direct Pathway: Application Task - interacts with - Data Entity
+
+Direct Pathway: Application Service - partially or fully automates - Information Object
+
+Direct Pathway: Application/System - includes - Application Service
+
+Direct Pathway: Data Object - generalisation of - Data Component
+
+Direct Pathway: Data Component - distributed through - Data Channel
+
+Direct Pathway: Data Entity - included in - Data Object
+
+Direct Pathway: Data Object - encapsulated by - Data Service
+
+Direct Pathway: Data Entity - logically specifies - Data Table
+
+Direct Pathway: Data Service - instantiated in - Data Table
+
+Direct Pathway: Data Table - specified by - Data Media
+
+Direct Pathway: Data Service - uses - Data Media
+
+Direct Pathway: Data Channel - means of distribution for - Data Service
+
+Direct Pathway: Data Media - hosted on - Platform Device
+
+Direct Pathway: Platform Device - specified by - Platform Component
+
+Direct Pathway: Platform Component - specifies - Infrastructure Service
+
+Direct Pathway: Infrastructure Service - instantiates behaviour of - Infrastructure Component
