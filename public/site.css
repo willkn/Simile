@@ -79,7 +79,7 @@ div.navbarText {
 }
 
 .backgroundDesign {
-    background-image: url('./images/Mainpictwo.jpg');
+    background-image: url('./images/Mainpictwo.jpg');  /*Reference for the picture----> Delberghe, J. (2019, May 23). a close up of a white wall with wavy lines. Unsplash. https://unsplash.com/photos/a-close-up-of-a-white-wall-with-wavy-lines-75xPHEQBmvA */
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
@@ -90,6 +90,8 @@ div.navbarText {
 
 
 /* drop box css */
+
+
 /*
 #drop-area {
     border: 2px dashed #000000;
@@ -120,10 +122,16 @@ ul.a {
     font-family: Arial, sans-serif;
     font-size: 1.2em;
     margin-bottom: 20px;
-    min-height: 200px; /* Adjust the height as needed */
+    min-height: 200px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin: 0 auto;
+    width: fit-content;
+}
+
+#drop-area>div {
+    margin: 100px auto;
 }
 
 #drop-area.highlight {
