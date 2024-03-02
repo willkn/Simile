@@ -1,32 +1,14 @@
-Organisation,owns,Organisational Function
-Organisational Function,executed by,Role
-Role,produces/consumes,Business Object
-Role,operates at,Location
-Business Object,generalisation of,Product
-Location,at,Product
-Product,at,Location
-Product,transforms/accountable for value of,Business Service
-Business Service,transforms/accountable for value of,Product
-Business Service,delivered by,Process
-Process,uses to indicate options/choices,Gateway
-Gateway,partially or fully automates,Application/System
-Application/System,implements,Application Function
-Application Function,implemented by,Application Task
-Information Object,provided by,Application Task
-Application/System,includes,Application Task
-Application Task,interacts with,Data Entity
-Application Service,partially or fully automates,Information Object
-Application/System,includes,Application Service
-Data Object,generalisation of,Data Component
-Data Component,distributed through,Data Channel
-Data Entity,included in,Data Object
-Data Object,encapsulated by,Data Service
-Data Entity,logically specifies,Data Table
-Data Service,instantiated in,Data Table
-Data Table,specified by,Data Media
-Data Service,uses,Data Media
-Data Channel,means of distribution for,Data Service
-Data Media,hosted on,Platform Device
-Platform Device,specified by,Platform Component
-Platform Component,specifies,Infrastructure Service
-Infrastructure Service,instantiates behaviour of,Infrastructure Component
+Force: #1,Composed of / Contained within,Force: #2
+Force,Influences,Vision
+Force,Influences,Mission
+Force,Influences,Strategy
+Force,Constrains,Organization
+Vision: #3,Composed of / Contained within,Vision: #4
+Vision,Guides,Strategy
+Vision,Motivated by,Organization
+Mission: #5,Composed of / Contained within,Mission: #6
+Mission,Guides,Strategy
+Mission,Executed by,Organization
+Strategy: #7,Composed of / Contained within,Strategy: #8
+Strategy,Influences the design and role of,Organization
+Organization: #9,Composed of / Contained within,Organization: #10

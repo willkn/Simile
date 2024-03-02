@@ -41,8 +41,27 @@
 #include <string>
 #include <cstring>
 #include <iostream>
-#include <curl/curl.h>
+#include "curl-8.6.0_2-win32-mingw\include\curl\curl.h"
 #ifdef _WIN32
+
+
+//#include <unistd.h>
+//#include <termios.h>
+#include <fcntl.h>
+
+using namespace std;
+
+#define MAX_ROWS 1000	//Max rows (objects) in context
+#define MAX_COLS 1000	//Max columns (attributes) in context 
+#define SOURCE 0		//source concept index of triple
+#define RELATION 1		//relation index of triple
+#define TARGET 2		//target concept index of triple
+
+//for recording and counting repeated binaries
+#define ATTRIBUTE 0
+#define OBJECT 1
+#define TIMES 2
+
 #include <conio.h> // For _kbhit on Windows
 #else
 #include <unistd.h>
