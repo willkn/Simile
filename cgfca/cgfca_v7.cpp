@@ -121,6 +121,7 @@ size_t WriteCallback(void *contents, size_t size, size_t nmemb, string *userp) {
     return size * nmemb;
 }
 
+/*
 std::string performPostRequest(const std::string& postData) {
     CURL* curl;
     CURLcode res;
@@ -143,6 +144,7 @@ std::string performPostRequest(const std::string& postData) {
     }
     return readBuffer;
 }
+*/
 
 int triple[5000][3];		//SourceConcept|relation|TargetConcept		
 int numtriples = 0;			//number of triples

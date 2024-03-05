@@ -33,9 +33,7 @@ function runCGFCA(arg1, arg2) {
                 console.error('Error running C++ program:', error);
                 reject(error);
             } else {
-                console.log("Very stupid text!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", stdout);
-                console.log("${arg2}", stdout);
-                console.log('C++ program output: gfdhfjgkjfjdszazdfcghjkhgfds', stdout);
+                console.log('C++ program output: ', stdout);
                 resolve(stdout);
             }
         });
@@ -199,6 +197,7 @@ app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
     }
 
     const filePath = req.file.path;
+    const filePathForTxt = req.file.path;
 
     try {
         // Run CGFCA asynchronously
@@ -208,7 +207,14 @@ app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
         const purgeDir = './cgfca/cxt'; // Directory to purge
         const generatedDir = path.join(__dirname, './cgfca/cxt');
         const fileName = 'generated_file.cxt';
+        const originalFileName = path.basename(filePath);
+        const fileExtension = path.extname(originalFileName);
+        const reportFileName = originalFileName.replace(fileExtension, ".txt");
+
+        const reportFilePath = path.join(path.dirname(filePathForTxt), reportFileName);        
+
         const generatedFilePath = path.join(generatedDir, fileName);
+        const generatedReportFilePath = path.join(generatedDir, reportFileName);
 
         // Purge the specified directory
         await purgeDirectory(purgeDir);
@@ -220,6 +226,7 @@ app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
 
         // Move the generated file to the specified directory
         fs.renameSync(filePath, generatedFilePath);
+        fs.renameSync(reportFilePath, generatedReportFilePath);
 
         // Send the generated file for download
         res.download(generatedFilePath, fileName, (err) => {
@@ -230,6 +237,18 @@ app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
                 console.log('File sent successfully');
             }
         });
+
+        // Download report for the cxt file (in .txt)
+        // NOTE: This won't work because you can't download more than one file from the web (rule). We need to change it to a zip file format
+        res.download(generatedReportFilePath, reportFileName, (err) => {
+            if (err) {
+                console.error('Error sending file:', err);
+                res.sendStatus(500); // Internal server error
+            } else {
+                console.log('File sent successfully');
+            }
+        });
+
     } catch (error) {
         console.error('Error processing file:', error);
         res.status(500).send('Error processing file');

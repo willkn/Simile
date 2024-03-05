@@ -1,0 +1,9 @@
+Triples to Binaries Report for C:\Users\User\Documents\GitHub\Simile\cgfca\uploads\01a-Cat-Mat-Colour.cgif
+
+
+
+Inputs: "Cat" 
+
+Outputs: "Colour: Grey" 
+
+Direct Pathway: Cat - sits-on - Mat - has-attribute - Colour: Grey
