@@ -7,6 +7,7 @@ const csvToMxCellXml = require('./csvToXML');
 const os = require('os'); // Required to check the operating system
 const fs = require('fs');
 const { DOMParser } = require('xmldom');
+var zip = require('express-zip');
 
 const app = express();
 const port = 3000;
@@ -206,9 +207,11 @@ app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
         // Specify the directory to be purged and the one for the generated file
         const purgeDir = './cgfca/cxt'; // Directory to purge
         const generatedDir = path.join(__dirname, './cgfca/cxt');
-        const fileName = 'generated_file.cxt';
         const originalFileName = path.basename(filePath);
         const fileExtension = path.extname(originalFileName);
+        var originalFileNameCopy = originalFileName;
+        originalFileNameCopy = originalFileNameCopy.replace(fileExtension, '');
+        const fileName = originalFileNameCopy + '.cxt';
         const reportFileName = originalFileName.replace(fileExtension, ".txt");
 
         const reportFilePath = path.join(path.dirname(filePathForTxt), reportFileName);        
@@ -229,6 +232,7 @@ app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
         fs.renameSync(reportFilePath, generatedReportFilePath);
 
         // Send the generated file for download
+        /*
         res.download(generatedFilePath, fileName, (err) => {
             if (err) {
                 console.error('Error sending file:', err);
@@ -237,9 +241,16 @@ app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
                 console.log('File sent successfully');
             }
         });
+        */
+
+        res.zip([
+            { path: generatedFilePath, name: fileName },
+            { path: generatedReportFilePath, name: reportFileName }
+          ]);
 
         // Download report for the cxt file (in .txt)
         // NOTE: This won't work because you can't download more than one file from the web (rule). We need to change it to a zip file format
+        /*
         res.download(generatedReportFilePath, reportFileName, (err) => {
             if (err) {
                 console.error('Error sending file:', err);
@@ -248,6 +259,7 @@ app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
                 console.log('File sent successfully');
             }
         });
+        */
 
     } catch (error) {
         console.error('Error processing file:', error);
