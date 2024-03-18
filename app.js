@@ -174,8 +174,8 @@ let listOfConnections = xmlToGraph(path.join('.', 'graphs', 'graph.xml'));
 
 let nodes = extractNodes(path.join('.', 'graphs', 'graph.xml'));
 
-let result = xmlToCSV3(listOfConnections, nodes);
-fs.writeFile(path.join('.', 'test.txt'), result, err => {
+let csvResult = xmlToCSV3(listOfConnections, nodes);
+fs.writeFile(path.join('.', 'test.txt'), csvResult, err => {
     if (err) {
         console.error(err);
     } else {

@@ -1,0 +1,35 @@
+Triples to Binaries Report for C:\Users\dell\Documents\GitHub\Simile\cgfca\uploads\business.csv
+
+
+
+Inputs: "Force: #1" "Force" "Vision: #3" "Mission: #5" "Strategy: #7" "Organization: #9" "testForce" 
+
+Outputs: "Force: #2" "Organization" "Vision: #4" "Mission: #6" "Strategy: #8" "Organization: #10" "TestOrganisation" 
+
+Direct Pathway: Force: #1 - Composed of / Contained within - Force: #2
+
+Direct Pathway: Force - Influences - Vision - Guides - Strategy - Influences the design and role of - Organization
+
+Direct Pathway: Force - Influences - Vision - Motivated by - Organization
+
+Direct Pathway: Force - Influences - Mission - Guides - Strategy - Influences the design and role of - Organization
+
+Direct Pathway: Force - Influences - Mission - Executed by - Organization
+
+Direct Pathway: Force - Influences - Strategy - Influences the design and role of - Organization
+
+Direct Pathway: Force - Constrains - Organization
+
+Direct Pathway: Vision: #3 - Composed of / Contained within - Vision: #4
+
+Direct Pathway: Mission: #5 - Composed of / Contained within - Mission: #6
+
+Direct Pathway: Strategy: #7 - Composed of / Contained within - Strategy: #8
+
+Direct Pathway: Organization: #9 - Composed of / Contained within - Organization: #10
+
+Direct Pathway: testForce - TestComp - TestOrganisation
+
+ 2 direct pathways from "Force - Influences - Vision" to "Organization"
+
+ 2 direct pathways from "Force - Influences - Mission" to "Organization"
