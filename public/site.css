@@ -49,6 +49,7 @@ div.navbarText {
 }
 
 .container {
+    background-image: url('./images/background_nodes.png');
     margin-top: 1%;
     margin-bottom: 1%;
     background-color: #6d6d6d;

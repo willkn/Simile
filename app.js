@@ -287,7 +287,7 @@ app.post('/test', (req, res) => {
 });
 
 
-app.get('/getXML', (req, res) => {
+app.post('/getXML', (req, res) => {
     const filePath = path.join(__dirname, './output.xml'); // Adjust the path as necessary
     fs.readFile(filePath, (err, data) => {
         if (err) {
@@ -298,6 +298,21 @@ app.get('/getXML', (req, res) => {
         res.type('application/xml');
         res.send(data);
     });
+});
+
+app.post('/getCSV', (req, res) => {
+    const xmlData =  req.body;
+
+    try {
+        const csvData = csvResult;
+
+        // Respond with the CSV data
+        res.type('text/csv');
+        res.send(csvData);
+    } catch (error) {
+        console.error('Error converting XML to CSV', error);
+        res.status(500).send('Error converting XML to CSV.');
+    }
 });
 
 // This example converts a contextual graph to xml that can be used in draw.io 
