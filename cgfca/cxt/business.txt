@@ -1,5 +1,3 @@
-Triples to Binaries Report for C:\Users\dell\Documents\GitHub\Simile\cgfca\uploads\business.csv
-
 
 
 Inputs: "Force: #1" "Force" "Vision: #3" "Mission: #5" "Strategy: #7" "Organization: #9" "testForce" 
@@ -30,6 +28,6 @@ Direct Pathway: Organization: #9 - Composed of / Contained within - Organization
 
 Direct Pathway: testForce - TestComp - TestOrganisation
 
- 2 direct pathways from "Force - Influences - Vision" to "Organization"
+2 direct pathways from "Force - Influences - Vision" to "Organization"
 
- 2 direct pathways from "Force - Influences - Mission" to "Organization"
+2 direct pathways from "Force - Influences - Mission" to "Organization"

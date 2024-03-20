@@ -1,0 +1,2 @@
+[Cat: *x1] [Mat: *x2] [Colour: Grey] 
+(sits-on ?x1 ?x2)(has-attribute ?x2 Grey)

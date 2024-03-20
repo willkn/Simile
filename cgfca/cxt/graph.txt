@@ -1,0 +1,15 @@
+
+
+Inputs: "Starting node" 
+
+Outputs: "End node" 
+
+Direct Pathway: Starting node -  - Node 2 - relation - Node 5 - relation - End node
+
+Direct Pathway: Starting node -  - Node 2 - relation - Node 6 - relation - End node
+
+Direct Pathway: Starting node - relation - Node 1 - relation - Node 4 - relation - Node 8 - relation - End node
+
+Direct Pathway: Starting node - relation - Node 3 - relation - Node 7 - relation - Node 9 - relation - End node
+
+2 direct pathways from "Starting node -  - Node 2" to "End node"

@@ -7,7 +7,10 @@ const csvToMxCellXml = require('./csvToXML');
 const os = require('os'); // Required to check the operating system
 const fs = require('fs');
 const { DOMParser } = require('xmldom');
+const tmp = require('tmp');
+//const FileType = require('file-type');
 var zip = require('express-zip');
+
 
 const app = express();
 const port = 3000;
@@ -169,12 +172,29 @@ function purgeDirectory(directoryPath) {
     });
 }
 
+function getFileType(filePath)
+{
+    const extension = path.extname(filePath).toLowerCase();
+    switch(extension)
+    {
+        case '.xml':
+            return 'text.xml';
+        case '.csv':
+            return 'text/csv';
+        case '.cgif':
+            return 'application.cgif';
+        default:
+            return null; // Unknown file type 
+    }
+}
 
-let listOfConnections = xmlToGraph(path.join('.', 'graphs', 'graph.xml'));
 
-let nodes = extractNodes(path.join('.', 'graphs', 'graph.xml'));
+//let listOfConnections = xmlToGraph(path.join('.', 'graphs', 'graph.xml'));
 
-let csvResult = xmlToCSV3(listOfConnections, nodes);
+//let nodes = extractNodes(path.join('.', 'graphs', 'graph.xml'));
+
+//let csvResult = xmlToCSV3(listOfConnections, nodes);
+/*
 fs.writeFile(path.join('.', 'test.txt'), csvResult, err => {
     if (err) {
         console.error(err);
@@ -182,6 +202,7 @@ fs.writeFile(path.join('.', 'test.txt'), csvResult, err => {
         // file written successfully
     }
 });
+*/
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -198,12 +219,45 @@ app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
     }
 
     const filePath = req.file.path;
-    const filePathForTxt = req.file.path;
+    //const filePathForTxt = req.file.path;
 
-    try {
+    try { 
+        let fileData;
+        let tempFilePath;
+
+        // Determine the file type
+        const fileType = getFileType(filePath);
+
+        const tempDir = tmp.dirSync();
+        // Check if uploaded file is XML
+        if (fileType === 'text.xml') 
+        {   
+            //Convert XML to CSV
+            const listOfConnections = xmlToGraph(filePath);
+            const nodes = extractNodes(filePath);
+
+            tempData = xmlToCSV3(listOfConnections, nodes);
+            tempFilePath = path.join(tempDir.name, 'data.csv');
+        } 
+        else if (fileType === 'application.cgif' || fileType === 'text/csv')
+        {
+           tempData = fs.readFileSync(filePath, 'utf8'); 
+           tempFilePath = path.join(tempDir.name, 'data' + path.extname(filePath));
+        }
+        else
+        {
+            return res.status(400).send('Unsupported file type');
+        }
+
+        // Write the file data to the temporary file
+        fs.writeFileSync(tempFilePath, tempData, 'utf8');
+
+        // Pass CSV data to CGFCA program
+
+        
         // Run CGFCA asynchronously
-        await runCGFCA(filePath);
-
+        await runCGFCA(tempFilePath);
+    
         // Specify the directory to be purged and the one for the generated file
         const purgeDir = './cgfca/cxt'; // Directory to purge
         const generatedDir = path.join(__dirname, './cgfca/cxt');
@@ -213,24 +267,25 @@ app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
         originalFileNameCopy = originalFileNameCopy.replace(fileExtension, '');
         const fileName = originalFileNameCopy + '.cxt';
         const reportFileName = originalFileName.replace(fileExtension, ".txt");
-
-        const reportFilePath = path.join(path.dirname(filePathForTxt), reportFileName);        
-
+    
+        const reportFilePath = path.join(path.dirname(filePath), reportFileName);        
+    
         const generatedFilePath = path.join(generatedDir, fileName);
         const generatedReportFilePath = path.join(generatedDir, reportFileName);
-
+    
         // Purge the specified directory
         await purgeDirectory(purgeDir);
-
+    
         // Check if the directory exists, if not, create it
         if (!fs.existsSync(generatedDir)) {
             fs.mkdirSync(generatedDir, { recursive: true });
         }
 
+        console.log('Generated file path:', generatedFilePath);
+        console.log('Generated report file path:', generatedReportFilePath);
+    
         // Move the generated file to the specified directory
-        fs.renameSync(filePath, generatedFilePath);
-        fs.renameSync(reportFilePath, generatedReportFilePath);
-
+    
         // Send the generated file for download
         /*
         res.download(generatedFilePath, fileName, (err) => {
@@ -242,28 +297,40 @@ app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
             }
         });
         */
+        //fileContent = runCGFCA(tempFilePath);
+
+        fs.writeFileSync(generatedReportFilePath, await runCGFCA(tempFilePath), 'utf8');
+        fs.writeFileSync(generatedFilePath, await runCGFCA(tempFilePath), 'utf8');
+        console.log('Generated files exist:', fs.existsSync(generatedFilePath), fs.existsSync(generatedReportFilePath));
 
         res.zip([
             { path: generatedFilePath, name: fileName },
             { path: generatedReportFilePath, name: reportFileName }
-          ]);
-
-        // Download report for the cxt file (in .txt)
-        // NOTE: This won't work because you can't download more than one file from the web (rule). We need to change it to a zip file format
-        /*
-        res.download(generatedReportFilePath, reportFileName, (err) => {
+        ], (err) => {
             if (err) {
-                console.error('Error sending file:', err);
+                console.error('Error zipping files:', err);
                 res.sendStatus(500); // Internal server error
             } else {
-                console.log('File sent successfully');
+                console.log('Files zipped successfully');
             }
         });
-        */
-
-    } catch (error) {
-        console.error('Error processing file:', error);
-        res.status(500).send('Error processing file');
+    
+            // Download report for the cxt file (in .txt)
+            // NOTE: This won't work because you can't download more than one file from the web (rule). We need to change it to a zip file format
+            /*
+            res.download(generatedReportFilePath, reportFileName, (err) => {
+                if (err) {
+                    console.error('Error sending file:', err);
+                    res.sendStatus(500); // Internal server error
+                } else {
+                    console.log('File sent successfully');
+                }
+            });
+            */
+    
+    } catch (error)
+    {
+        console.error('Error processing file', error);
     }
 });
 
