@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
 const { exec } = require('child_process');
 const multer = require('multer');
@@ -16,6 +17,7 @@ const app = express();
 const port = 3000;
 const bodyParser = require('body-parser');
 
+app.use(cors());
 app.use(express.static('public'));
 
 const storage = multer.diskStorage({
@@ -212,6 +214,18 @@ app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
 
+app.get('/will', (req, res) => {
+    console.log('hello');
+    res.send('Hello from the server!');
+});
+
+app.post('/will', (req, res) => {
+    console.log('hello', req.body);
+    res.send('Hello from the server!');
+});
+
+
+
 app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
     console.log("received!");
     if (!req.file || !req.file.path) {
@@ -274,8 +288,8 @@ app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
         const generatedReportFilePath = path.join(generatedDir, reportFileName);
     
         // Purge the specified directory
-        await purgeDirectory(purgeDir);
-    
+        // await purgeDirectory(purgeDir);
+
         // Check if the directory exists, if not, create it
         if (!fs.existsSync(generatedDir)) {
             fs.mkdirSync(generatedDir, { recursive: true });
