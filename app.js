@@ -283,23 +283,6 @@ app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
 
         console.log('Generated file path:', generatedFilePath);
         console.log('Generated report file path:', generatedReportFilePath);
-    
-
-        
-        // Move the generated file to the specified directory
-    
-        // Send the generated file for download
-        /*
-        res.download(generatedFilePath, fileName, (err) => {
-            if (err) {
-                console.error('Error sending file:', err);
-                res.sendStatus(500); // Internal server error
-            } else {
-                console.log('File sent successfully');
-            }
-        });
-        */
-        //fileContent = runCGFCA(tempFilePath);
 
         const cxtContent = await runCGFCA(tempFilePath);
 
@@ -330,19 +313,6 @@ app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
                 console.log('Files zipped successfully');
             }
         });
-    
-            // Download report for the cxt file (in .txt)
-            // NOTE: This won't work because you can't download more than one file from the web (rule). We need to change it to a zip file format
-            /*
-            res.download(generatedReportFilePath, reportFileName, (err) => {
-                if (err) {
-                    console.error('Error sending file:', err);
-                    res.sendStatus(500); // Internal server error
-                } else {
-                    console.log('File sent successfully');
-                }
-            });
-            */
     
     } catch (error)
     {
