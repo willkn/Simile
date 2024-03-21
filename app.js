@@ -30,18 +30,24 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 function runCGFCA(arg1, arg2) {
-    const command = path.join('.', 'cgfca', 'cgfca_v7') + ` ${arg1} ${arg2}`; // Use path.join() for the command path
-    return new Promise((resolve, reject) => {
-        exec(command, (error, stdout, stderr) => {
-            if (error) {
-                console.error('Error running C++ program:', error);
-                reject(error);
-            } else {
-                console.log('C++ program output: ', stdout);
-                resolve(stdout);
-            }
+    const platform = os.platform();
+    if (platform !== 'win32') {
+        const command = path.join('.', 'cgfca', 'cgfca_u') + ` ${arg1} ${arg2}`; // Use path.join() for the command path
+        return new Promise((resolve, reject) => {
+            exec(command, (error, stdout, stderr) => {
+                if (error) {
+                    console.error('Error running C++ program:', error);
+                    reject(error);
+                } else {
+                    console.log('C++ program output: ', stdout);
+                    resolve(stdout);
+                }
+            });
         });
-    });
+    } else {
+        console.log('Skipping execution on Windows platform.');
+        return Promise.resolve();
+    }
 }
 
 function xmlToGraph(pathToGraph) {
