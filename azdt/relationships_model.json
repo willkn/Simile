@@ -1,0 +1,62 @@
+[
+  {
+    "from": "Starting node",
+    "relationship": "relation",
+    "to": "Node 1"
+  },
+  {
+    "from": "Starting node",
+    "relationship": "relation",
+    "to": "Node 3"
+  },
+  {
+    "from": "Node 2",
+    "relationship": "relation",
+    "to": "Node 5"
+  },
+  {
+    "from": "Node 2",
+    "relationship": "relation",
+    "to": "Node 6"
+  },
+  {
+    "from": "Node 3",
+    "relationship": "relation",
+    "to": "Node 7"
+  },
+  {
+    "from": "Node 7",
+    "relationship": "relation",
+    "to": "Node 9"
+  },
+  {
+    "from": "Node 9",
+    "relationship": "relation",
+    "to": "End node"
+  },
+  {
+    "from": "Node 6",
+    "relationship": "relation",
+    "to": "End node"
+  },
+  {
+    "from": "Node 5",
+    "relationship": "relation",
+    "to": "End node"
+  },
+  {
+    "from": "Node 1",
+    "relationship": "relation",
+    "to": "Node 4"
+  },
+  {
+    "from": "Node 4",
+    "relationship": "relation",
+    "to": "Node 8"
+  },
+  {
+    "from": "Node 8",
+    "relationship": "relation",
+    "to": "End node"
+  }
+]
