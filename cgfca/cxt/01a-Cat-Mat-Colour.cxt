@@ -1,7 +1,0 @@
-
-
-Inputs: "Cat" 
-
-Outputs: "Colour: Grey" 
-
-Direct Pathway: Cat - sits-on - Mat - has-attribute - Colour: Grey

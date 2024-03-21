@@ -284,6 +284,8 @@ app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
         console.log('Generated file path:', generatedFilePath);
         console.log('Generated report file path:', generatedReportFilePath);
     
+
+        
         // Move the generated file to the specified directory
     
         // Send the generated file for download
@@ -299,8 +301,22 @@ app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
         */
         //fileContent = runCGFCA(tempFilePath);
 
-        fs.writeFileSync(generatedReportFilePath, await runCGFCA(tempFilePath), 'utf8');
-        fs.writeFileSync(generatedFilePath, await runCGFCA(tempFilePath), 'utf8');
+        const cxtContent = await runCGFCA(tempFilePath);
+
+        const cxtFilePath = path.join(__dirname, './cgfca/cxt/.cxt');
+        let fileContents;
+
+        // Read the file asynchronously
+        try {
+            fileContents = fs.readFileSync(cxtFilePath, 'utf8');
+        } catch (err) {
+            console.error('Error reading file:', err);
+            // Handle error appropriately
+            return;
+        }
+
+        fs.writeFileSync(generatedReportFilePath, fileContents, 'utf8');
+        fs.writeFileSync(generatedFilePath, fileContents, 'utf8');
         console.log('Generated files exist:', fs.existsSync(generatedFilePath), fs.existsSync(generatedReportFilePath));
 
         res.zip([
