@@ -125,7 +125,68 @@
                                 $("#desiredLocation").append(existingScriptTag);
                             });
                         });
+                        
+                        $(document).ready(function() {
+                        var dropArea = document.getElementById('drop-area');
+
+                        // Prevent default drag behaviors
+                        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                            dropArea.addEventListener(eventName, preventDefaults, false);
+                            document.body.addEventListener(eventName, preventDefaults, false);
+                        });
+
+                        // Highlight drop area when a file is dragged over it
+                        ['dragenter', 'dragover'].forEach(eventName => {
+                            dropArea.addEventListener(eventName, highlight, false);
+                        });
+
+                        // Unhighlight drop area when a file is dragged out of it
+                        ['dragleave', 'drop'].forEach(eventName => {
+                            dropArea.addEventListener(eventName, unhighlight, false);
+                        });
+
+                        // Handle dropped files
+                        dropArea.addEventListener('drop', handleDrop, false);
+
+                        function preventDefaults(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                        }
+
+                        function highlight() {
+                            dropArea.classList.add('highlight');
+                        }
+
+                        function unhighlight() {
+                            dropArea.classList.remove('highlight');
+                        }
+
+                        function handleDrop(e) {
+                            var dt = e.dataTransfer;
+                            var files = dt.files;
+
+                            handleFiles(files);
+                        }
+
+                        function handleFiles(files) {
+                            files = [...files];
+                            files.forEach(uploadFile);
+                        }
+
+                        function uploadFile(file) {
+                            var reader = new FileReader();
+
+                            reader.onload = function(e) {
+                                var listItem = document.createElement('li');
+                                listItem.textContent = file.name;
+                                document.getElementById('file-list').appendChild(listItem);
+                            };
+
+                            reader.readAsDataURL(file);
+                        }
 });
+                        
+}); 
                     </script>
 </body>
 

@@ -1,5 +1,4 @@
 const express = require('express');
-const cors = require('cors');
 const path = require('path');
 const { exec } = require('child_process');
 const multer = require('multer');
@@ -17,7 +16,6 @@ const app = express();
 const port = 3000;
 const bodyParser = require('body-parser');
 
-app.use(cors());
 app.use(express.static('public'));
 
 const storage = multer.diskStorage({
