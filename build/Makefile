@@ -338,8 +338,8 @@ ifeq ($(strip $(foreach prefix,$(NO_LOAD),\
 endif
 
 quiet_cmd_regen_makefile = ACTION Regenerating $@
-cmd_regen_makefile = cd $(srcdir); /home/will/.npm/_npx/c463d28440264a05/node_modules/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/home/will/.cache/node-gyp/21.2.0" "-Dnode_gyp_dir=/home/will/.npm/_npx/c463d28440264a05/node_modules/node-gyp" "-Dnode_lib_file=/home/will/.cache/node-gyp/21.2.0/<(target_arch)/node.lib" "-Dmodule_root_dir=/home/will/simile" "-Dnode_engine=v8" "--depth=." "-Goutput_dir=." "--generator-output=build" -I/home/will/simile/build/config.gypi -I/home/will/.npm/_npx/c463d28440264a05/node_modules/node-gyp/addon.gypi -I/home/will/.cache/node-gyp/21.2.0/include/node/common.gypi "--toplevel-dir=." binding.gyp
-Makefile: $(srcdir)/build/config.gypi $(srcdir)/binding.gyp $(srcdir)/../.cache/node-gyp/21.2.0/include/node/common.gypi $(srcdir)/../.npm/_npx/c463d28440264a05/node_modules/node-gyp/addon.gypi
+cmd_regen_makefile = cd $(srcdir); /home/will/.nvm/versions/node/v20.11.0/lib/node_modules/npm/node_modules/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/home/will/.cache/node-gyp/20.11.0" "-Dnode_gyp_dir=/home/will/.nvm/versions/node/v20.11.0/lib/node_modules/npm/node_modules/node-gyp" "-Dnode_lib_file=/home/will/.cache/node-gyp/20.11.0/<(target_arch)/node.lib" "-Dmodule_root_dir=/home/will/tmp/Simile" "-Dnode_engine=v8" "--depth=." "-Goutput_dir=." "--generator-output=build" -I/home/will/tmp/Simile/build/config.gypi -I/home/will/.nvm/versions/node/v20.11.0/lib/node_modules/npm/node_modules/node-gyp/addon.gypi -I/home/will/.cache/node-gyp/20.11.0/include/node/common.gypi "--toplevel-dir=." binding.gyp
+Makefile: $(srcdir)/../../.nvm/versions/node/v20.11.0/lib/node_modules/npm/node_modules/node-gyp/addon.gypi $(srcdir)/build/config.gypi $(srcdir)/binding.gyp $(srcdir)/../../.cache/node-gyp/20.11.0/include/node/common.gypi
 	$(call do_cmd,regen_makefile)
 
 # "all" is a concatenation of the "all" targets from all the included
