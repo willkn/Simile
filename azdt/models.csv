@@ -1,0 +1,6 @@
+ModelID,ID (must be unique),Relationship (From),Relationship Name
+dtmi:example:Building;1,BuildingA,,
+dtmi:example:Floor;1,Floor1,BuildingA,contains
+dtmi:example:Floor;1,Floor0,BuildingA,contains
+dtmi:example:Room;1,Room1,Floor1,contains
+dtmi:example:Room;1,Room0,Floor0,contains

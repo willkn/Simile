@@ -1,0 +1,6 @@
+{
+  "@id": "dtmi:example:Node_5;1",
+  "@type": "Interface",
+  "displayName": "Node 5",
+  "@context": "dtmi:dtdl:context;2"
+}
