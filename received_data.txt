@@ -1,0 +1,47 @@
+Triples to Binaries Report for received_data.csv
+
+
+
+Inputs: "Organisation" "Process" "Platform Component" 
+
+Outputs: "Location" "Business Service" "Application Function" "Information Object" "Data Component" "Data Table" "Infrastructure Component" 
+
+Direct Pathway: Organisation - owns - Organisational Function - executed by - Role - produces/consumes - Business Object - generalisation of - Product - at - Location
+
+Direct Pathway: Organisation - owns - Organisational Function - executed by - Role - produces/consumes - Business Object - generalisation of - Product - transforms/accountable for value of - Business Service
+
+Direct Pathway: Organisation - owns - Organisational Function - executed by - Role - operates at - Location
+
+Direct Pathway: Process - delivers - Business Service
+
+Direct Pathway: Process - uses to indicate options/choices - Gateway - partially or fully automates - Application/System - implements - Application Function
+
+Direct Pathway: Process - uses to indicate options/choices - Gateway - partially or fully automates - Application/System - includes - Application Task - implements - Application Function
+
+Direct Pathway: Process - uses to indicate options/choices - Gateway - partially or fully automates - Application/System - includes - Application Task - provides - Information Object
+
+Direct Pathway: Process - uses to indicate options/choices - Gateway - partially or fully automates - Application/System - includes - Application Task - interacts with - Data Entity - included in - Data Object - generalisation of - Data Component
+
+Direct Pathway: Process - uses to indicate options/choices - Gateway - partially or fully automates - Application/System - includes - Application Task - interacts with - Data Entity - logically specifies - Data Table
+
+Direct Pathway: Process - uses to indicate options/choices - Gateway - partially or fully automates - Application/System - includes - Application Service - partially or fully automates - Information Object
+
+Direct Pathway: Platform Component - provides the specification for - Platform Device - hosts - Data Media - logically specifies - Data Table
+
+Direct Pathway: Platform Component - provides the specification for - Platform Device - hosts - Data Media - used by - Data Service - encapsulates - Data Object - generalisation of - Data Component
+
+Direct Pathway: Platform Component - provides the specification for - Platform Device - hosts - Data Media - used by - Data Service - instantiated in - Data Table
+
+Direct Pathway: Platform Component - provides the specification for - Platform Device - hosts - Data Media - used by - Data Service - means of distribution is - Data Channel - distributes - Data Component
+
+Direct Pathway: Platform Component - specifies - Infrastructure Service - instantiates behaviour of - Infrastructure Component
+
+ 2 direct pathways from "Organisation - owns - Organisational Function" to "Location"
+
+ 2 direct pathways from "Process - uses to indicate options/choices - Gateway" to "Application Function"
+
+ 2 direct pathways from "Process - uses to indicate options/choices - Gateway" to "Information Object"
+
+ 2 direct pathways from "Platform Component - provides the specification for - Platform Device" to "Data Table"
+
+ 2 direct pathways from "Platform Component - provides the specification for - Platform Device" to "Data Component"

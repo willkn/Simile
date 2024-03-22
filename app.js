@@ -380,6 +380,26 @@ app.post('/getCSV', (req, res) => {
     }
 });
 
+//excel add-in end point 
+app.post('/excel', (req, res) => {
+    // Get the CSV data from the request body
+    const csvData = req.body;
+
+    // Parse the CSV data
+    const parsedData = csvData.split('\n').map(line => line.split(','));
+
+    // Write the CSV data to a file
+    const fileName = 'received_data.csv';
+    const fileStream = fs.createWriteStream(fileName);
+    parsedData.forEach(row => fileStream.write(row.join(',') + '\n'));
+    fileStream.end();
+
+    runCGFCA(fileName);
+
+    // Respond with status code 200
+    res.sendStatus(200);
+  });
+
 // This example converts a contextual graph to xml that can be used in draw.io 
 const csvData = `
 Organisation,owns,Organisational Function

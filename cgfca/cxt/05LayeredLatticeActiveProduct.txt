@@ -1,0 +1,30 @@
+B
+
+9
+7
+
+Organisation
+Organisational Function,
+Role
+Business Object,
+Location,
+Product
+Location
+Product,
+Business Service,
+Organisation owns
+Role participates in
+Role produces/consumes
+Role operates at
+Product specialisation of
+Location at
+Product transforms/accountable for value of
+.......
+XX.....
+.......
+..X.X..
+...X...
+.......
+.......
+.....X.
+......X
