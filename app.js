@@ -8,7 +8,6 @@ const os = require('os'); // Required to check the operating system
 const fs = require('fs');
 const { DOMParser } = require('xmldom');
 const tmp = require('tmp');
-//const FileType = require('file-type');
 var zip = require('express-zip');
 
 
@@ -231,7 +230,8 @@ app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
     }
 
     const filePath = req.file.path;
-    //const filePathForTxt = req.file.path;
+    console.log(filePath);
+    csvToXML(filePath);
 
     try { 
         let fileData;
@@ -400,45 +400,25 @@ app.post('/excel', (req, res) => {
     res.sendStatus(200);
   });
 
-// This example converts a contextual graph to xml that can be used in draw.io 
-const csvData = `
-Organisation,owns,Organisational Function
-Organisational Function,executed by,Role
-Role,produces/consumes,Business Object
-Role,operates at,Location
-Business Object,generalisation of,Product
-Location,at,Product
-Product,at,Location
-Product,transforms/accountable for value of,Business Service
-Business Service,transforms/accountable for value of,Product
-Business Service,delivered by,Process
-Process,uses to indicate options/choices,Gateway
-Gateway,partially or fully automates,Application/System
-Application/System,implements,Application Function
-Application Function,implemented by,Application Task
-Information Object,provided by,Application Task
-Application/System,includes,Application Task
-Application Task,interacts with,Data Entity
-Application Service,partially or fully automates,Information Object
-Application/System,includes,Application Service
-Data Object,generalisation of,Data Component
-Data Component,distributed through,Data Channel
-Data Entity,included in,Data Object
-Data Object,encapsulated by,Data Service
-Data Entity,logically specifies,Data Table
-Data Service,instantiated in,Data Table
-Data Table,specified by,Data Media
-Data Service,uses,Data Media
-Data Channel,means of distribution for,Data Service
-Data Media,hosted on,Platform Device
-Platform Device,specified by,Platform Component
-Platform Component,specifies,Infrastructure Service
-Infrastructure Service,instantiates behaviour of,Infrastructure Component
-`;
+  function csvToXML(filepath) {
+    let csvData = '';
 
-const mxCellXml = csvToMxCellXml(csvData);
+    // Read the CSV file at the specified filepath
+    fs.createReadStream(filepath)
+        .pipe(csv())
+        .on('data', (row) => {
+            // Concatenate CSV data row by row
+            // Convert each row object to a string and concatenate with line break
+            csvData += Object.values(row).join(',') + '\n';
+        })
+        .on('end', () => {
+            // After processing all rows, generate XML from the CSV data
+            const mxCellXml = csvToMxCellXml(csvData);
 
-fs.writeFile('./output.xml', mxCellXml, (err) => {
-    if (err) throw err;
-    console.log('The file has been saved!');
-});
+            // Write the XML data to the output file
+            fs.writeFile('./output.xml', mxCellXml, (err) => {
+                if (err) throw err;
+                console.log('The file has been saved!');
+            });
+        });
+}
