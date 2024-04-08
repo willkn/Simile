@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2024-04-08T16:14:55.244Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36" etag="0X4bTRrY3wodQaqrYH4V" version="24.2.2" type="device">
+  <diagram name="Page-1" id="42789a77-a242-8287-6e28-9cd8cfd52e62">
+    <mxGraphModel dx="1674" dy="772" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="V27ix_1OJZPI8P3s0IPH-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="V27ix_1OJZPI8P3s0IPH-1" target="V27ix_1OJZPI8P3s0IPH-9" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="V27ix_1OJZPI8P3s0IPH-1" value="Travels-by" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="130" y="160" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="V27ix_1OJZPI8P3s0IPH-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="V27ix_1OJZPI8P3s0IPH-2" target="V27ix_1OJZPI8P3s0IPH-8" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="V27ix_1OJZPI8P3s0IPH-2" value="booked-by" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="470" y="160" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="V27ix_1OJZPI8P3s0IPH-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" parent="1" source="V27ix_1OJZPI8P3s0IPH-3" target="V27ix_1OJZPI8P3s0IPH-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="V27ix_1OJZPI8P3s0IPH-3" value="destination" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="110" y="470" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="V27ix_1OJZPI8P3s0IPH-4" value="location-of" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="500" y="470" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="V27ix_1OJZPI8P3s0IPH-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.575;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="V27ix_1OJZPI8P3s0IPH-6" target="V27ix_1OJZPI8P3s0IPH-4" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="560" y="610" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="V27ix_1OJZPI8P3s0IPH-6" value="City: London" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="240" y="680" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="V27ix_1OJZPI8P3s0IPH-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.417;entryY=-0.012;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="V27ix_1OJZPI8P3s0IPH-8" target="V27ix_1OJZPI8P3s0IPH-1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="240" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="V27ix_1OJZPI8P3s0IPH-8" value="Person:Simon" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="280" y="40" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="V27ix_1OJZPI8P3s0IPH-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="V27ix_1OJZPI8P3s0IPH-9" target="V27ix_1OJZPI8P3s0IPH-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="V27ix_1OJZPI8P3s0IPH-9" value="Coach: #564" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="150" y="320" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="V27ix_1OJZPI8P3s0IPH-11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="V27ix_1OJZPI8P3s0IPH-10" target="V27ix_1OJZPI8P3s0IPH-2" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="V27ix_1OJZPI8P3s0IPH-10" value="Hotel: OpenSky" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="380" y="320" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="V27ix_1OJZPI8P3s0IPH-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.55;entryY=0.967;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="V27ix_1OJZPI8P3s0IPH-4" target="V27ix_1OJZPI8P3s0IPH-10" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
