@@ -9,8 +9,8 @@ function csvToXML(csvData) {
 
     // Initial positions for the nodes
     let x = 100, y = 100;
-    const xIncrement = 150; // Increment x to place nodes horizontally
-    const yIncrement = 100; // Increment y to move nodes to a new row
+    const xIncrement = 200; // Increment x to place nodes horizontally
+    const yIncrement = 150; // Increment y to move nodes to a new row
     let toggleRow = false; // Helper to alternate rows
 
     // Track nodes to avoid duplicating them in the XML
