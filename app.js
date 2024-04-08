@@ -29,7 +29,15 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 function runCGFCA(arg1, arg2) {
-    const command = path.join('.', 'cgfca', 'cgfca_v7') + ` ${arg1} ${arg2}`; // Use path.join() for the command path
+    let command;
+    if (os.platform() === 'linux' || os.platform() === 'darwin') {
+        // For Unix-like systems (Linux, macOS)
+        command = path.join('.', 'cgfca', 'cgfca_u') + ` ${arg1} ${arg2}`;
+    } else {
+        // For other systems (e.g., Windows)
+        command = path.join('.', 'cgfca', 'cgfca_v7') + ` ${arg1} ${arg2}`;
+    }
+
     return new Promise((resolve, reject) => {
         exec(command, (error, stdout, stderr) => {
             if (error) {
@@ -220,8 +228,6 @@ app.post('/will', (req, res) => {
     console.log('hello', req.body);
     res.send('Hello from the server!');
 });
-
-
 
 app.post('/cgfca', upload.single('draw.ioInput'), async (req, res) => {
     console.log("received!");
