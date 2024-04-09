@@ -127,7 +127,13 @@ function xmlToCSV3(connections, nodes) {
 }
 
 function removeHTMLSymbols(str) {
-    const htmlSymbols = ["&nbsp;", "&lt;", "&gt;", "&amp;", "&quot;", "<div>", "</div>", "<span>", "</span>"];
+
+    const fontTagRegex = /<font[^>]*>/g;
+    
+    // Remove <font> tags with any attributes
+    str = str.replace(fontTagRegex, "");
+
+    const htmlSymbols = ["&nbsp;", "&lt;", "&gt;", "&amp;", "&quot;", "<div>", "</div>", "<span>", "</span>", "</font>"];
 
     for (i = 0; i < htmlSymbols.length; i++) {
         //check if you need <span> in the if condition too 
