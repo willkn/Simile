@@ -1,0 +1,13 @@
+B
+
+3
+2
+
+Pet;Cat: Gwyn
+Mat
+Food-brand: Gourmet
+Pet;Cat: Gwyn sits-on
+Pet;Cat: Gwyn likes
+..
+X.
+.X
