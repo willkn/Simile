@@ -1,0 +1,85 @@
+B
+
+25
+30
+
+Organisation
+Organisational Function
+Role
+Business Object
+Location
+Product
+Business Service
+Process
+Gateway
+Application/System
+Application Function
+Application Task
+Information Object
+Data Entity
+Application Service
+Data Object
+Data Component
+Data Channel
+Data Service
+Data Table
+Data Media
+Platform Device
+Platform Component
+Infrastructure Service
+Infrastructure Component
+Organisation owns
+Organisational Function executed by
+Role produces/consumes
+Role operates at
+Business Object generalisation of
+Product at
+Product transforms/accountable for value of
+Process delivers
+Process uses to indicate options/choices
+Gateway partially or fully automates
+Application/System implements
+Application Task implements
+Application Task provides
+Application/System includes
+Application Task interacts with
+Application Service partially or fully automates
+Application/System includes
+Data Object generalisation of
+Data Channel distributes
+Data Entity included in
+Data Service encapsulates
+Data Entity logically specifies
+Data Service instantiated in
+Data Media logically specifies
+Data Media used by
+Data Service means of distribution is
+Platform Device hosts
+Platform Component provides the specification for
+Platform Component specifies
+Infrastructure Service instantiates behaviour of
+..............................
+X.............................
+XX............................
+XXX...........................
+XXXXXX........................
+XXX.X.........................
+XXX.X.XX......................
+..............................
+........X.....................
+........XX....................
+........XXXX.X................
+........XX...X................
+........XX..XX.XX.............
+........XX...XX...............
+........XX......X.............
+........XX...XX....XX...X.XX..
+........XX...XX..XXXX...XXXX..
+........................XXXX..
+........................X.XX..
+........XX...XX......XXXX.XX..
+..........................XX..
+...........................X..
+..............................
+............................X.
+............................XX
